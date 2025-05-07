@@ -42,28 +42,25 @@ st.markdown(f"""
 **Clearinghouse Knowledge:** {current['clearinghouse_knowledge']}
 """)
 
+# Build strong system prompt
+system_prompt = f"You are role-playing as {current['persona_name']}, the {current['persona_role']} at {current['prospect']}. " \
+                f"You are talking to a sales rep from ARCpoint Labs, who is trying to sell you drug testing, background checks, or policy services. " \
+                f"You are NOT the ARCpoint rep. You will only answer as yourself, from the buyer's perspective. " \
+                f"You should share objections, pain points, and opinions, and only agree to buy if you are convinced. " \
+                f"Stay in character as {current['persona_name']} at all times."
+
 # Reset chat when scenario changes
 if "last_scenario" not in st.session_state:
     st.session_state.last_scenario = choice
 
 if choice != st.session_state.last_scenario:
-    st.session_state.messages = [{
-        "role": "system",
-        "content": f"You are role-playing as {current['persona_name']}, {current['persona_role']} at {current['prospect']}. "
-                   f"You are {current['arcpoint_familiarity']}, but NOT a current ARCpoint customer. "
-                   f"You have hidden pain points and objections. Only say YES to closing if the salesperson effectively addresses them."
-    }]
+    st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
     st.session_state.last_scenario = choice
 
 # Initialize messages
 if "messages" not in st.session_state:
-    st.session_state.messages = [{
-        "role": "system",
-        "content": f"You are role-playing as {current['persona_name']}, {current['persona_role']} at {current['prospect']}. "
-                   f"You are {current['arcpoint_familiarity']}, but NOT a current ARCpoint customer. "
-                   f"You have hidden pain points and objections. Only say YES to closing if the salesperson effectively addresses them."
-    }]
+    st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
 
 # Chat input
@@ -88,7 +85,7 @@ if user_input and not st.session_state.closed:
         else:
             st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
 
-# Show chat history + voice
+# Show chat history + voice playback
 for msg in st.session_state.messages[1:]:
     if msg["role"] == "user":
         st.chat_message("user").write(msg["content"])
@@ -103,10 +100,7 @@ for msg in st.session_state.messages[1:]:
 
 # Reset button
 if st.sidebar.button("🔄 Reset Chat"):
-    st.session_state.messages = [{
-        "role": "system",
-        "content": f"You are role-playing as {current['persona_name']}, {current['persona_role']} at {current['prospect']}."
-    }]
+    st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
     st.experimental_rerun()
 
