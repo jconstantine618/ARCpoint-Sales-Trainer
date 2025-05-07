@@ -26,25 +26,28 @@ scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENA
 choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
 current = SCENARIOS[scenario_names.index(choice)]
 
-# Display scenario details
+# Display scenario details for the trainee
 st.markdown(f"""
-**Prospect Persona:** {current['prospect']}
-
-**Trigger/Pain:** {current['trigger_pain']}
-
-**Likely Objection:** {current['likely_objection']}
-
+**Prospect Company:** {current['prospect']}  
+**Category:** {current['category']}  
+**Persona:** {current['persona_name']}, {current['persona_role']}  
+**Background:** {current['persona_background']}  
+**Familiarity with ARCpoint:** {current['arcpoint_familiarity']}  
+**Company Info:** {current['company_background']}
 """)
 
 # Initialize chat state
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content":
-         f"You are role-playing {current['prospect']}, a customer considering ARCpoint Labs services. "
-         f"Your pain point is: {current['trigger_pain']}. "
-         f"You worry: {current['likely_objection']}. "
-         f"Engage as a realistic customer: share pain, raise objections, ask questions, "
-         f"and respond naturally to the salesperson."}
+         f"You are role-playing as {current['persona_name']}, the {current['persona_role']} at {current['prospect']}. "
+         f"Background: {current['persona_background']}. "
+         f"You are {current['arcpoint_familiarity']} with ARCpoint Labs. "
+         f"Internally, you have the following pain point: {current['trigger_pain']} "
+         f"and the following likely objection: {current['likely_objection']}. "
+         f"Do NOT reveal the pain or objection unless the salesperson asks thoughtful, relevant questions. "
+         f"Respond naturally, share details realistically, and behave like a human customer."
+        }
     ]
 
 # Chat input
@@ -72,10 +75,13 @@ for msg in st.session_state.messages[1:]:
 if st.sidebar.button("🔄 Reset Chat"):
     st.session_state.messages = [
         {"role": "system", "content":
-         f"You are role-playing {current['prospect']}, a customer considering ARCpoint Labs services. "
-         f"Your pain point is: {current['trigger_pain']}. "
-         f"You worry: {current['likely_objection']}. "
-         f"Engage as a realistic customer: share pain, raise objections, ask questions, "
-         f"and respond naturally to the salesperson."}
+         f"You are role-playing as {current['persona_name']}, the {current['persona_role']} at {current['prospect']}. "
+         f"Background: {current['persona_background']}. "
+         f"You are {current['arcpoint_familiarity']} with ARCpoint Labs. "
+         f"Internally, you have the following pain point: {current['trigger_pain']} "
+         f"and the following likely objection: {current['likely_objection']}. "
+         f"Do NOT reveal the pain or objection unless the salesperson asks thoughtful, relevant questions. "
+         f"Respond naturally, share details realistically, and behave like a human customer."
+        }
     ]
     st.experimental_rerun()
