@@ -1,131 +1,172 @@
-import streamlit as st
-import openai
-import os
-import json
-import pathlib
-from gtts import gTTS
-
-# Scoring function — moved to top
-def calculate_score(messages):
-    total_points = 0
-    principle_points = min(len([m for m in messages if m["role"] == "user"]), 30) * 3
-    total_points += min(principle_points, 90)
-    sale_closed = any("yes" in m["content"].lower() for m in messages[-3:])
-    if sale_closed:
-        total_points += 30
-    summary = "✅ You hit several key principles.\n" if total_points >= 70 else "⚠️ You missed important objections or pain points.\n"
-    summary += f"Principle points: {principle_points}/90\n"
-    summary += f"Sale close bonus: {'30' if sale_closed else '0'}/30\n"
-    return total_points, summary
-
-# Setup OpenAI client
-api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
-if not api_key:
-    st.error("OPENAI_API_KEY not found.")
-    st.stop()
-client = openai.OpenAI(api_key=api_key)
-
-# Load scenarios
-DATA_PATH = pathlib.Path(__file__).parent / "data" / "arcpoint_scenarios.json"
-with open(DATA_PATH) as f:
-    SCENARIOS = json.load(f)
-
-# UI setup
-st.set_page_config(page_title="ARCpoint Sales Trainer", page_icon="💬")
-st.title("💬 ARCpoint Sales Training Chatbot")
-
-# Sidebar controls
-scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENARIOS]
-choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
-voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode")
-
-current = SCENARIOS[scenario_names.index(choice)]
-
-# Show general details only
-st.markdown(f"""
-**Persona:** {current['persona_name']} ({current['persona_role']})  
-**Background:** {current['persona_background']}  
-**Company:** {current['prospect']}  
-**Difficulty:** {current['difficulty']}  
-**State:** {current['state']} (Marijuana: {current['marijuana_legality']})
-""")
-
-# Strong system prompt
-system_prompt = f"You are role-playing as {current['persona_name']}, the {current['persona_role']} at {current['prospect']}. " \
-                f"You are talking to a sales rep from ARCpoint Labs, who is trying to sell you drug testing, background checks, or policy services. " \
-                f"You are NOT the ARCpoint rep. You will only answer as yourself, from the buyer's perspective. " \
-                f"You should share objections, pain points, and opinions, and only agree to buy if you are convinced. " \
-                f"Stay in character as {current['persona_name']} at all times."
-
-# Reset on scenario change
-if "last_scenario" not in st.session_state:
-    st.session_state.last_scenario = choice
-
-if choice != st.session_state.last_scenario:
-    st.session_state.messages = [{"role": "system", "content": system_prompt}]
-    st.session_state.closed = False
-    st.session_state.last_scenario = choice
-
-# Initialize messages
-if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "system", "content": system_prompt}]
-    st.session_state.closed = False
-
-# Chat input
-user_input = st.chat_input("Your message to the prospect")
-if user_input and not st.session_state.closed:
-    st.session_state.messages.append({"role": "user", "content": user_input})
-
-    # Always prepend system prompt
-    messages = [{"role": "system", "content": system_prompt}] + st.session_state.messages[1:]
-
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-    )
-    reply = response.choices[0].message.content.strip()
-    st.session_state.messages.append({"role": "assistant", "content": reply})
-
-    if any(phrase in user_input.lower() for phrase in ["move forward", "sign up", "get started", "ready to proceed"]):
-        score, summary = calculate_score(st.session_state.messages)
-        st.session_state.closed = True
-        st.success(f"🏆 Final Score: {score}/100")
-        st.write(summary)
-        if score >= 70:
-            st.balloons()
-            st.write("🎉 You closed the sale! Excellent job!")
-        else:
-            st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
-
-# Show chat history + voice
-for msg in st.session_state.messages[1:]:
-    if msg["role"] == "user":
-        st.chat_message("user").write(msg["content"])
-    else:
-        st.chat_message("assistant").write(msg["content"])
-        if voice_mode:
-            tts = gTTS(msg["content"])
-            tts.save("reply.mp3")
-            audio_file = open("reply.mp3", "rb")
-            audio_bytes = audio_file.read()
-            st.audio(audio_bytes, format="audio/mp3")
-
-# Reset button
-if st.sidebar.button("🔄 Reset Chat"):
-    st.session_state.messages = [{"role": "system", "content": system_prompt}]
-    st.session_state.closed = False
-    st.experimental_rerun()
-
-# End Chat button
-if st.sidebar.button("🔚 End Chat"):
-    if not st.session_state.closed:
-        score, summary = calculate_score(st.session_state.messages)
-        st.session_state.closed = True
-        st.success(f"🏆 Final Score: {score}/100")
-        st.write(summary)
-        if score >= 70:
-            st.balloons()
-            st.write("🎉 You closed the sale! Excellent job!")
-        else:
-            st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
-
+[
+  {
+    "id": 1,
+    "prospect": "Global Automaker",
+    "category": "B2B Enterprise",
+    "persona_name": "Sarah",
+    "persona_role": "Compliance Director",
+    "persona_background": "Sarah has 15 years in manufacturing compliance and safety oversight.",
+    "difficulty": "Medium",
+    "state": "Michigan",
+    "marijuana_legality": "Prescription only",
+    "random_program": "Yes",
+    "supervisor_training": "No",
+    "drug_policy_update": "About a year ago",
+    "clearinghouse_knowledge": "Somewhat informed",
+    "total_employees": 1200,
+    "dot_employees": 150
+  },
+  {
+    "id": 2,
+    "prospect": "GreenHaul Trucking",
+    "category": "B2B SMB",
+    "persona_name": "Marcus",
+    "persona_role": "Safety Manager",
+    "persona_background": "Marcus has 12 years in trucking compliance at GreenHaul.",
+    "difficulty": "Hard",
+    "state": "Texas",
+    "marijuana_legality": "Not legal",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "More than a year ago",
+    "clearinghouse_knowledge": "Very informed",
+    "total_employees": 300,
+    "dot_employees": 80
+  },
+  {
+    "id": 3,
+    "prospect": "Pipeline Contractor",
+    "category": "B2B Enterprise",
+    "persona_name": "James",
+    "persona_role": "HR Director",
+    "persona_background": "James oversees compliance and workforce safety for a large pipeline firm.",
+    "difficulty": "Hard",
+    "state": "North Dakota",
+    "marijuana_legality": "Not legal",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "Less than six months ago",
+    "clearinghouse_knowledge": "Very informed",
+    "total_employees": 500,
+    "dot_employees": 200
+  },
+  {
+    "id": 4,
+    "prospect": "National Telecom",
+    "category": "B2B Enterprise",
+    "persona_name": "Karen",
+    "persona_role": "Risk Manager",
+    "persona_background": "Karen manages fleet safety for telecom service trucks nationwide.",
+    "difficulty": "Medium",
+    "state": "California",
+    "marijuana_legality": "Recreationally legal",
+    "random_program": "Yes",
+    "supervisor_training": "No",
+    "drug_policy_update": "About a year ago",
+    "clearinghouse_knowledge": "Somewhat informed",
+    "total_employees": 2000,
+    "dot_employees": 300
+  },
+  {
+    "id": 5,
+    "prospect": "Short-line Railroad",
+    "category": "B2B Enterprise",
+    "persona_name": "Tom",
+    "persona_role": "Operations Director",
+    "persona_background": "Tom has a background in rail logistics and oversees compliance.",
+    "difficulty": "Hard",
+    "state": "Illinois",
+    "marijuana_legality": "Prescription only",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "About a year ago",
+    "clearinghouse_knowledge": "Very informed",
+    "total_employees": 600,
+    "dot_employees": 250
+  },
+  {
+    "id": 6,
+    "prospect": "Local Construction Firm",
+    "category": "B2B SMB",
+    "persona_name": "Linda",
+    "persona_role": "Office Manager",
+    "persona_background": "Linda handles HR and compliance for a family-owned contractor.",
+    "difficulty": "Easy",
+    "state": "Florida",
+    "marijuana_legality": "Prescription only",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "More than a year ago",
+    "clearinghouse_knowledge": "Completely clueless",
+    "total_employees": 50,
+    "dot_employees": 20
+  },
+  {
+    "id": 7,
+    "prospect": "CPA Firm",
+    "category": "B2B SMB",
+    "persona_name": "Rebecca",
+    "persona_role": "Managing Partner",
+    "persona_background": "Rebecca leads a regional CPA firm with a growing staff.",
+    "difficulty": "Easy",
+    "state": "New York",
+    "marijuana_legality": "Recreationally legal",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "More than a year ago",
+    "clearinghouse_knowledge": "Completely clueless",
+    "total_employees": 40,
+    "dot_employees": 0
+  },
+  {
+    "id": 8,
+    "prospect": "Food Delivery SaaS",
+    "category": "B2B SaaS",
+    "persona_name": "Alex",
+    "persona_role": "HR Lead",
+    "persona_background": "Alex handles HR policies for a fast-growing delivery app startup.",
+    "difficulty": "Medium",
+    "state": "Oregon",
+    "marijuana_legality": "Recreationally legal",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "About a year ago",
+    "clearinghouse_knowledge": "Somewhat informed",
+    "total_employees": 150,
+    "dot_employees": 10
+  },
+  {
+    "id": 9,
+    "prospect": "Medical Device Distributor",
+    "category": "B2B SMB",
+    "persona_name": "Nina",
+    "persona_role": "Compliance Officer",
+    "persona_background": "Nina oversees quality control and compliance across all field reps.",
+    "difficulty": "Medium",
+    "state": "Massachusetts",
+    "marijuana_legality": "Recreationally legal",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "Less than six months ago",
+    "clearinghouse_knowledge": "Very informed",
+    "total_employees": 250,
+    "dot_employees": 50
+  },
+  {
+    "id": 10,
+    "prospect": "Hazmat Tanker Fleet",
+    "category": "B2B Enterprise",
+    "persona_name": "Bubba",
+    "persona_role": "HR Manager",
+    "persona_background": "Bubba has 5 years managing HR for a fleet hauling hazardous materials.",
+    "difficulty": "Hard",
+    "state": "Louisiana",
+    "marijuana_legality": "Not legal",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "Less than six months ago",
+    "clearinghouse_knowledge": "Very informed",
+    "total_employees": 400,
+    "dot_employees": 300
+  }
+]
