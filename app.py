@@ -75,9 +75,13 @@ if "messages" not in st.session_state:
 user_input = st.chat_input("Your message to the prospect")
 if user_input and not st.session_state.closed:
     st.session_state.messages.append({"role": "user", "content": user_input})
+
+    # Always prepend system prompt to reinforce role
+    messages = [{"role": "system", "content": system_prompt}] + st.session_state.messages[1:]
+
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=st.session_state.messages
+        messages=messages
     )
     reply = response.choices[0].message.content.strip()
     st.session_state.messages.append({"role": "assistant", "content": reply})
