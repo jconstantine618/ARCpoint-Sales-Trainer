@@ -1,4 +1,5 @@
-streamlit>=1.34.0        # web UI
-openai>=1.25.0           # ChatGPT API
-python-dotenv>=1.0.1     # load OPENAI_API_KEY from .env (optional)
-tiktoken>=0.7.0          # token‑length helper for future usage/limit
+streamlit>=1.34.0          # web UI
+openai>=1.25.0            # ChatGPT API
+python-dotenv>=1.0.1      # load OPENAI_API_KEY from .env (optional)
+tiktoken>=0.7.0           # token-length helper
+gtts>=2.3.2               # text-to-speech engine
