@@ -3,8 +3,9 @@ import openai
 import os
 import json
 import pathlib
+from gtts import gTTS
 
-# Setup
+# Setup OpenAI client
 api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
 if not api_key:
     st.error("OPENAI_API_KEY not found.")
@@ -20,8 +21,11 @@ with open(DATA_PATH) as f:
 st.set_page_config(page_title="ARCpoint Sales Trainer", page_icon="💬")
 st.title("💬 ARCpoint Sales Training Chatbot")
 
+# Sidebar controls
 scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENARIOS]
 choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
+voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode")
+
 current = SCENARIOS[scenario_names.index(choice)]
 
 # Show details
@@ -29,6 +33,7 @@ st.markdown(f"""
 **Persona:** {current['persona_name']} ({current['persona_role']})  
 **Background:** {current['persona_background']}  
 **Company:** {current['prospect']}  
+**Employees:** {current['total_employees']} total, {current['dot_employees']} under DOT  
 **Difficulty:** {current['difficulty']}  
 **State:** {current['state']} (Marijuana: {current['marijuana_legality']})  
 **Random Program:** {current['random_program']}  
@@ -37,7 +42,7 @@ st.markdown(f"""
 **Clearinghouse Knowledge:** {current['clearinghouse_knowledge']}
 """)
 
-# Reset chat when changing scenario
+# Reset chat when scenario changes
 if "last_scenario" not in st.session_state:
     st.session_state.last_scenario = choice
 
@@ -83,9 +88,18 @@ if user_input and not st.session_state.closed:
         else:
             st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
 
-# Show chat history
+# Show chat history + voice
 for msg in st.session_state.messages[1:]:
-    st.chat_message(msg["role"]).write(msg["content"])
+    if msg["role"] == "user":
+        st.chat_message("user").write(msg["content"])
+    else:
+        st.chat_message("assistant").write(msg["content"])
+        if voice_mode:
+            tts = gTTS(msg["content"])
+            tts.save("reply.mp3")
+            audio_file = open("reply.mp3", "rb")
+            audio_bytes = audio_file.read()
+            st.audio(audio_bytes, format="audio/mp3")
 
 # Reset button
 if st.sidebar.button("🔄 Reset Chat"):
