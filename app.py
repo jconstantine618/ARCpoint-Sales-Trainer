@@ -5,6 +5,19 @@ import json
 import pathlib
 from gtts import gTTS
 
+# Scoring function — moved to top
+def calculate_score(messages):
+    total_points = 0
+    principle_points = min(len([m for m in messages if m["role"] == "user"]), 30) * 3
+    total_points += min(principle_points, 90)
+    sale_closed = any("yes" in m["content"].lower() for m in messages[-3:])
+    if sale_closed:
+        total_points += 30
+    summary = "✅ You hit several key principles.\n" if total_points >= 70 else "⚠️ You missed important objections or pain points.\n"
+    summary += f"Principle points: {principle_points}/90\n"
+    summary += f"Sale close bonus: {'30' if sale_closed else '0'}/30\n"
+    return total_points, summary
+
 # Setup OpenAI client
 api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
 if not api_key:
@@ -28,28 +41,23 @@ voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode")
 
 current = SCENARIOS[scenario_names.index(choice)]
 
-# Show details
+# Show only general details (no hidden info)
 st.markdown(f"""
 **Persona:** {current['persona_name']} ({current['persona_role']})  
 **Background:** {current['persona_background']}  
 **Company:** {current['prospect']}  
-**Employees:** {current['total_employees']} total, {current['dot_employees']} under DOT  
 **Difficulty:** {current['difficulty']}  
-**State:** {current['state']} (Marijuana: {current['marijuana_legality']})  
-**Random Program:** {current['random_program']}  
-**Supervisor Training:** {current['supervisor_training']}  
-**Policy Updated:** {current['drug_policy_update']}  
-**Clearinghouse Knowledge:** {current['clearinghouse_knowledge']}
+**State:** {current['state']} (Marijuana: {current['marijuana_legality']})
 """)
 
-# Build strong system prompt
+# Strong system prompt
 system_prompt = f"You are role-playing as {current['persona_name']}, the {current['persona_role']} at {current['prospect']}. " \
                 f"You are talking to a sales rep from ARCpoint Labs, who is trying to sell you drug testing, background checks, or policy services. " \
                 f"You are NOT the ARCpoint rep. You will only answer as yourself, from the buyer's perspective. " \
                 f"You should share objections, pain points, and opinions, and only agree to buy if you are convinced. " \
                 f"Stay in character as {current['persona_name']} at all times."
 
-# Reset chat when scenario changes
+# Reset on scenario change
 if "last_scenario" not in st.session_state:
     st.session_state.last_scenario = choice
 
@@ -85,7 +93,7 @@ if user_input and not st.session_state.closed:
         else:
             st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
 
-# Show chat history + voice playback
+# Show chat history + voice
 for msg in st.session_state.messages[1:]:
     if msg["role"] == "user":
         st.chat_message("user").write(msg["content"])
@@ -103,16 +111,3 @@ if st.sidebar.button("🔄 Reset Chat"):
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
     st.experimental_rerun()
-
-# Scoring function
-def calculate_score(messages):
-    total_points = 0
-    principle_points = min(len([m for m in messages if m["role"] == "user"]), 30) * 3
-    total_points += min(principle_points, 90)
-    sale_closed = any("yes" in m["content"].lower() for m in messages[-3:])
-    if sale_closed:
-        total_points += 30
-    summary = "✅ You hit several key principles.\n" if total_points >= 70 else "⚠️ You missed important objections or pain points.\n"
-    summary += f"Principle points: {principle_points}/90\n"
-    summary += f"Sale close bonus: {'30' if sale_closed else '0'}/30\n"
-    return total_points, summary
