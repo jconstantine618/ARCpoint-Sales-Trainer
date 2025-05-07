@@ -10,7 +10,13 @@
     "trigger_pain": "FMCSA mandates random pool for growing driver force",
     "likely_objection": "We’re too small for a TPA",
     "arcpoint_solution": "DOT random pool management + mobile collections",
-    "company_background": "Multinational automaker with a major U.S. manufacturing presence. Employs tens of thousands of workers, including a large network of commercial drivers for parts delivery. Known for precision engineering and rigid internal processes. They are aware of ARCpoint's reputation but have never used them."
+    "company_background": "Multinational automaker with a major U.S. manufacturing presence. Known for precision engineering and internal process rigor.",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "About a year ago",
+    "state": "Michigan",
+    "marijuana_legality": "Prescription only",
+    "clearinghouse_knowledge": "Very informed"
   },
   {
     "id": 2,
@@ -23,7 +29,13 @@
     "trigger_pain": "Failed internal audit on custody forms",
     "likely_objection": "Collectors vary in quality",
     "arcpoint_solution": "DOT-qualified collectors + Total Reporting chain-of-custody tracking",
-    "company_background": "One of the country’s largest telecom providers. Recently became aware of ARCpoint through competitors but has not engaged them yet."
+    "company_background": "Major telecom provider expanding its fleet but struggling to scale compliance systems.",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "More than a year ago",
+    "state": "California",
+    "marijuana_legality": "Recreationally legal",
+    "clearinghouse_knowledge": "Somewhat informed"
   },
   {
     "id": 3,
@@ -36,7 +48,13 @@
     "trigger_pain": "No 24/7 post-accident option for night shift",
     "likely_objection": "Drivers can’t reach sites after hours",
     "arcpoint_solution": "On-call mobile testing & after-hours network access",
-    "company_background": "Specializes in hauling hazardous materials. Previously worked with ARCpoint but ended contract due to past service issues."
+    "company_background": "Specializes in hazardous materials hauling; proud but stretched safety team.",
+    "random_program": "Yes",
+    "supervisor_training": "No",
+    "drug_policy_update": "More than a year ago",
+    "state": "Texas",
+    "marijuana_legality": "Not legal",
+    "clearinghouse_knowledge": "Somewhat informed"
   },
   {
     "id": 4,
@@ -44,12 +62,18 @@
     "prospect": "Short-line Railroad",
     "persona_name": "Lori",
     "persona_role": "Safety Director",
-    "persona_background": "12 years in rail, skeptical of new tech, focused on union relations",
+    "persona_background": "12 years in rail, skeptical of new tech, union-focused",
     "arcpoint_familiarity": "Not familiar",
     "trigger_pain": "New FRA oral-fluid rule confusion",
     "likely_objection": "We don’t trust oral-fluid accuracy",
     "arcpoint_solution": "Education + dual-matrix program; policy addendum",
-    "company_background": "A niche railroad with strong local ties. Has never worked with ARCpoint or similar vendors."
+    "company_background": "Small regional railroad with tight-knit union crews.",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "The person has no idea",
+    "state": "Ohio",
+    "marijuana_legality": "Prescription only",
+    "clearinghouse_knowledge": "Completely clueless"
   },
   {
     "id": 5,
@@ -57,12 +81,18 @@
     "prospect": "Pipeline Contractor",
     "persona_name": "Carlos",
     "persona_role": "Regional Safety Manager",
-    "persona_background": "10 years on pipelines, very hands-on, wants data proof",
+    "persona_background": "10 years on pipelines, hands-on, wants data proof",
     "arcpoint_familiarity": "Somewhat familiar, neutral",
     "trigger_pain": "Missed 50% random rate",
     "likely_objection": "Random selections disrupt schedules",
     "arcpoint_solution": "Algorithmic randomization + pooled onsite days",
-    "company_background": "Regional pipeline company. Knows of ARCpoint but has not yet evaluated or worked with them."
+    "company_background": "Regional pipeline construction firm under pressure to modernize compliance.",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "About a year ago",
+    "state": "North Dakota",
+    "marijuana_legality": "Not legal",
+    "clearinghouse_knowledge": "Very informed"
   },
   {
     "id": 6,
@@ -70,12 +100,18 @@
     "prospect": "Charter Bus Company",
     "persona_name": "Jean",
     "persona_role": "Owner",
-    "persona_background": "30 years in business, knows everyone local, wants low-maintenance vendors",
+    "persona_background": "30 years in business, local networker, low-maintenance preference",
     "arcpoint_familiarity": "Not familiar",
     "trigger_pain": "Cross-border expansion Canada-US",
     "likely_objection": "Cross-border laws confuse us",
     "arcpoint_solution": "DOT consulting + international policy alignment",
-    "company_background": "Family-run operation, mid-level reputation, never worked with ARCpoint or similar services before."
+    "company_background": "Family-owned bus operator trying to grow into cross-border routes.",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "The person has no idea",
+    "state": "New York",
+    "marijuana_legality": "Recreationally legal",
+    "clearinghouse_knowledge": "Completely clueless"
   },
   {
     "id": 7,
@@ -83,12 +119,18 @@
     "prospect": "Oilfield Service Firm",
     "persona_name": "Mike",
     "persona_role": "Director of Safety",
-    "persona_background": "20 years in oil & gas, old-school, expects fast action",
+    "persona_background": "20 years in oil & gas, no-nonsense, demands results",
     "arcpoint_familiarity": "Very familiar, positive reputation but no current use",
     "trigger_pain": "High post-accident positives",
     "likely_objection": "Collectors are 2 hrs away",
     "arcpoint_solution": "Onsite collection room; train staff collectors",
-    "company_background": "Regional oilfield services company. Knows ARCpoint well from industry contacts but has never contracted them."
+    "company_background": "Regional leader in rugged oilfield operations with safety gaps.",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "Less than six months ago",
+    "state": "Oklahoma",
+    "marijuana_legality": "Prescription only",
+    "clearinghouse_knowledge": "Somewhat informed"
   },
   {
     "id": 8,
@@ -96,12 +138,18 @@
     "prospect": "Air-cargo Handler",
     "persona_name": "Natalie",
     "persona_role": "Compliance Officer",
-    "persona_background": "6 years in aviation, loves dashboards, hates paperwork",
+    "persona_background": "6 years in aviation, tech-savvy, hates paperwork",
     "arcpoint_familiarity": "Somewhat familiar, neutral",
     "trigger_pain": "Audit approaching; records scattered",
     "likely_objection": "Docs live in six spreadsheets",
     "arcpoint_solution": "Total Reporting central repository + audit kit",
-    "company_background": "Major airport ground handler. Heard of ARCpoint through industry forums but hasn’t used them."
+    "company_background": "Fast-growing airport ground handler under audit pressure.",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "Less than six months ago",
+    "state": "Illinois",
+    "marijuana_legality": "Recreationally legal",
+    "clearinghouse_knowledge": "Very informed"
   },
   {
     "id": 9,
@@ -109,12 +157,18 @@
     "prospect": "Agricultural Co-op",
     "persona_name": "Eli",
     "persona_role": "General Manager",
-    "persona_background": "25 years in ag, skeptical of outsiders, pragmatic",
+    "persona_background": "25 years in ag, pragmatic, skeptical of outsiders",
     "arcpoint_familiarity": "Not familiar",
     "trigger_pain": "Marijuana state law vs federal conflict",
     "likely_objection": "Employees say weed is legal here",
     "arcpoint_solution": "Policy rewrite clarifying DOT zero-tolerance",
-    "company_background": "Ag co-op serving local farms. No exposure to ARCpoint or third-party testing services yet."
+    "company_background": "Trusted ag co-op with little experience in DOT compliance.",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "More than a year ago",
+    "state": "Nebraska",
+    "marijuana_legality": "Not legal",
+    "clearinghouse_knowledge": "Completely clueless"
   },
   {
     "id": 10,
@@ -127,6 +181,12 @@
     "trigger_pain": "Merging two random pools after M&A",
     "likely_objection": "Which pool rules apply?",
     "arcpoint_solution": "Pool consolidation + driver file merge",
-    "company_background": "Regional carrier. Used ARCpoint years ago but left due to service gaps; open to reconsidering with the right improvements."
+    "company_background": "Regional carrier doubling fleet post-merger, struggling with compliance chaos.",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "About a year ago",
+    "state": "Georgia",
+    "marijuana_legality": "Prescription only",
+    "clearinghouse_knowledge": "Somewhat informed"
   }
 ]
