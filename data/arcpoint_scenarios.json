@@ -6,11 +6,11 @@
     "persona_name": "Sandra",
     "persona_role": "Global Compliance Director",
     "persona_background": "15 years in compliance, detail-oriented, cautious about vendor risks",
-    "arcpoint_familiarity": "Very familiar, positive experience",
+    "arcpoint_familiarity": "Very familiar, positive reputation but no current use",
     "trigger_pain": "FMCSA mandates random pool for growing driver force",
     "likely_objection": "We’re too small for a TPA",
     "arcpoint_solution": "DOT random pool management + mobile collections",
-    "company_background": "Multinational automaker with a major U.S. manufacturing presence. Employs tens of thousands of workers, including a large network of commercial drivers for parts delivery. Known for precision engineering and rigid internal processes. Their compliance department is sophisticated, but even they struggle to keep pace with changing FMCSA requirements, especially as their fleet scales up. They are extremely data- and risk-focused; they want robust technology and bulletproof documentation."
+    "company_background": "Multinational automaker with a major U.S. manufacturing presence. Employs tens of thousands of workers, including a large network of commercial drivers for parts delivery. Known for precision engineering and rigid internal processes. They are aware of ARCpoint's reputation but have never used them."
   },
   {
     "id": 2,
@@ -23,7 +23,7 @@
     "trigger_pain": "Failed internal audit on custody forms",
     "likely_objection": "Collectors vary in quality",
     "arcpoint_solution": "DOT-qualified collectors + Total Reporting chain-of-custody tracking",
-    "company_background": "One of the country’s largest telecom providers, with a mix of field service vehicles and long-haul fleet. Recent acquisitions have expanded their footprint, but compliance has not scaled as smoothly. Known for aggressive expansion and tight operational KPIs, they are laser-focused on efficiency and cost control."
+    "company_background": "One of the country’s largest telecom providers. Recently became aware of ARCpoint through competitors but has not engaged them yet."
   },
   {
     "id": 3,
@@ -32,11 +32,11 @@
     "persona_name": "Bubba",
     "persona_role": "HR Manager",
     "persona_background": "5 years in industry, knows FMCSA rules, practical, cost-sensitive",
-    "arcpoint_familiarity": "Very familiar, negative experience",
+    "arcpoint_familiarity": "Very familiar, negative experience (used in the past but no longer)",
     "trigger_pain": "No 24/7 post-accident option for night shift",
     "likely_objection": "Drivers can’t reach sites after hours",
     "arcpoint_solution": "On-call mobile testing & after-hours network access",
-    "company_background": "Specializes in hauling hazardous materials across multiple states. Mid-sized regional fleet with 60 trucks. They have a reputation for on-time deliveries but struggle with post-accident testing, especially at night. Management is proud of their safety record but underestimates compliance risks."
+    "company_background": "Specializes in hauling hazardous materials. Previously worked with ARCpoint but ended contract due to past service issues."
   },
   {
     "id": 4,
@@ -49,7 +49,7 @@
     "trigger_pain": "New FRA oral-fluid rule confusion",
     "likely_objection": "We don’t trust oral-fluid accuracy",
     "arcpoint_solution": "Education + dual-matrix program; policy addendum",
-    "company_background": "A niche railroad serving local industrial customers. Strong union relationships but underinvested in compliance tools. Recently flagged by the FRA for slow adoption of oral-fluid testing. Leadership prefers trusted, practical partners."
+    "company_background": "A niche railroad with strong local ties. Has never worked with ARCpoint or similar vendors."
   },
   {
     "id": 5,
@@ -62,7 +62,7 @@
     "trigger_pain": "Missed 50% random rate",
     "likely_objection": "Random selections disrupt schedules",
     "arcpoint_solution": "Algorithmic randomization + pooled onsite days",
-    "company_background": "Regional pipeline construction firm working on major infrastructure projects. Known for skilled crews and tight deadlines but managing compliance mostly on paper. Failed to meet random testing benchmarks, putting contracts at risk."
+    "company_background": "Regional pipeline company. Knows of ARCpoint but has not yet evaluated or worked with them."
   },
   {
     "id": 6,
@@ -75,7 +75,7 @@
     "trigger_pain": "Cross-border expansion Canada-US",
     "likely_objection": "Cross-border laws confuse us",
     "arcpoint_solution": "DOT consulting + international policy alignment",
-    "company_background": "Family-run operation with 25 buses handling school trips, church outings, casino runs. Middle of the road on quality. Minor FMCSA issues in the past but no major improvements. Decent local reputation but unaware corporate customers see them as behind on compliance."
+    "company_background": "Family-run operation, mid-level reputation, never worked with ARCpoint or similar services before."
   },
   {
     "id": 7,
@@ -84,11 +84,11 @@
     "persona_name": "Mike",
     "persona_role": "Director of Safety",
     "persona_background": "20 years in oil & gas, old-school, expects fast action",
-    "arcpoint_familiarity": "Very familiar, positive experience",
+    "arcpoint_familiarity": "Very familiar, positive reputation but no current use",
     "trigger_pain": "High post-accident positives",
     "likely_objection": "Collectors are 2 hrs away",
     "arcpoint_solution": "Onsite collection room; train staff collectors",
-    "company_background": "Regional oilfield services leader with 1,000 employees. Provides equipment and crews across multiple states. Rugged operations but thin on admin. Runs 24/7 in remote areas, making post-accident testing hard to cover."
+    "company_background": "Regional oilfield services company. Knows ARCpoint well from industry contacts but has never contracted them."
   },
   {
     "id": 8,
@@ -97,11 +97,11 @@
     "persona_name": "Natalie",
     "persona_role": "Compliance Officer",
     "persona_background": "6 years in aviation, loves dashboards, hates paperwork",
-    "arcpoint_familiarity": "Very familiar, positive experience",
+    "arcpoint_familiarity": "Somewhat familiar, neutral",
     "trigger_pain": "Audit approaching; records scattered",
     "likely_objection": "Docs live in six spreadsheets",
     "arcpoint_solution": "Total Reporting central repository + audit kit",
-    "company_background": "Major air freight ground handler at a top-five U.S. airport. 500 employees, nonstop operations. Rapid growth has strained compliance systems. Management is tech-friendly and eager for smarter tools if ROI is clear."
+    "company_background": "Major airport ground handler. Heard of ARCpoint through industry forums but hasn’t used them."
   },
   {
     "id": 9,
@@ -114,7 +114,7 @@
     "trigger_pain": "Marijuana state law vs federal conflict",
     "likely_objection": "Employees say weed is legal here",
     "arcpoint_solution": "Policy rewrite clarifying DOT zero-tolerance",
-    "company_background": "Well-established ag co-op providing seed, fertilizer, and trucking to local farms. Proud of its independence. Up to date on local trends but unfamiliar with evolving DOT and drug-testing rules."
+    "company_background": "Ag co-op serving local farms. No exposure to ARCpoint or third-party testing services yet."
   },
   {
     "id": 10,
@@ -123,10 +123,10 @@
     "persona_name": "Tammy",
     "persona_role": "VP of Operations",
     "persona_background": "15 years trucking ops, sharp negotiator, tech-savvy",
-    "arcpoint_familiarity": "Somewhat familiar, neutral",
+    "arcpoint_familiarity": "Very familiar, negative experience (past client who switched away)",
     "trigger_pain": "Merging two random pools after M&A",
     "likely_objection": "Which pool rules apply?",
     "arcpoint_solution": "Pool consolidation + driver file merge",
-    "company_background": "Regional flatbed carrier that just merged with a competitor, doubling fleet size. Known for fast deliveries. The merger has created operational and compliance chaos. Leadership is ambitious but wants solutions that simplify, not complicate."
+    "company_background": "Regional carrier. Used ARCpoint years ago but left due to service gaps; open to reconsidering with the right improvements."
   }
 ]
