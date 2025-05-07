@@ -41,7 +41,7 @@ voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode")
 
 current = SCENARIOS[scenario_names.index(choice)]
 
-# Show only general details (no hidden info)
+# Show general details only
 st.markdown(f"""
 **Persona:** {current['persona_name']} ({current['persona_role']})  
 **Background:** {current['persona_background']}  
@@ -76,7 +76,7 @@ user_input = st.chat_input("Your message to the prospect")
 if user_input and not st.session_state.closed:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # Always prepend system prompt to reinforce role
+    # Always prepend system prompt
     messages = [{"role": "system", "content": system_prompt}] + st.session_state.messages[1:]
 
     response = client.chat.completions.create(
@@ -115,3 +115,16 @@ if st.sidebar.button("🔄 Reset Chat"):
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
     st.experimental_rerun()
+
+# End Chat button
+if st.sidebar.button("🔚 End Chat"):
+    if not st.session_state.closed:
+        score, summary = calculate_score(st.session_state.messages)
+        st.session_state.closed = True
+        st.success(f"🏆 Final Score: {score}/100")
+        st.write(summary)
+        if score >= 70:
+            st.balloons()
+            st.write("🎉 You closed the sale! Excellent job!")
+        else:
+            st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
