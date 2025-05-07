@@ -2,801 +2,131 @@
   {
     "id": 1,
     "category": "B2B Enterprise",
-    "prospect": "Global automaker",
-    "trigger_pain": "FMCSA mandates random pool",
-    "likely_objection": "We\u2019re too small for a TPA",
-    "arcpoint_solution": "DOT random pool management + mobile collections"
+    "prospect": "Global Automaker",
+    "persona_name": "Sandra",
+    "persona_role": "Global Compliance Director",
+    "persona_background": "15 years in compliance, detail-oriented, cautious about vendor risks",
+    "arcpoint_familiarity": "Very familiar, positive experience",
+    "trigger_pain": "FMCSA mandates random pool for growing driver force",
+    "likely_objection": "We’re too small for a TPA",
+    "arcpoint_solution": "DOT random pool management + mobile collections",
+    "company_background": "Multinational automaker with a major U.S. manufacturing presence. Employs tens of thousands of workers, including a large network of commercial drivers for parts delivery. Known for precision engineering and rigid internal processes. Their compliance department is sophisticated, but even they struggle to keep pace with changing FMCSA requirements, especially as their fleet scales up. They are extremely data- and risk-focused; they want robust technology and bulletproof documentation."
   },
   {
     "id": 2,
     "category": "B2B Enterprise",
-    "prospect": "National telecom",
-    "trigger_pain": "Failed custody-form audit",
+    "prospect": "National Telecom",
+    "persona_name": "Mark",
+    "persona_role": "Fleet Operations Manager",
+    "persona_background": "8 years managing telecom fleets, numbers-driven, budget-focused",
+    "arcpoint_familiarity": "Somewhat familiar, neutral",
+    "trigger_pain": "Failed internal audit on custody forms",
     "likely_objection": "Collectors vary in quality",
-    "arcpoint_solution": "Qualified collectors + Total Reporting tracking"
+    "arcpoint_solution": "DOT-qualified collectors + Total Reporting chain-of-custody tracking",
+    "company_background": "One of the country’s largest telecom providers, with a mix of field service vehicles and long-haul fleet. Recent acquisitions have expanded their footprint, but compliance has not scaled as smoothly. Known for aggressive expansion and tight operational KPIs, they are laser-focused on efficiency and cost control."
   },
   {
     "id": 3,
     "category": "B2B Enterprise",
-    "prospect": "Hazmat tanker fleet",
-    "trigger_pain": "Night shift lacks 24/7 testing",
-    "likely_objection": "Drivers can\u2019t reach sites after hours",
-    "arcpoint_solution": "Mobile post-accident service"
+    "prospect": "Hazmat Tanker Fleet",
+    "persona_name": "Bubba",
+    "persona_role": "HR Manager",
+    "persona_background": "5 years in industry, knows FMCSA rules, practical, cost-sensitive",
+    "arcpoint_familiarity": "Very familiar, negative experience",
+    "trigger_pain": "No 24/7 post-accident option for night shift",
+    "likely_objection": "Drivers can’t reach sites after hours",
+    "arcpoint_solution": "On-call mobile testing & after-hours network access",
+    "company_background": "Specializes in hauling hazardous materials across multiple states. Mid-sized regional fleet with 60 trucks. They have a reputation for on-time deliveries but struggle with post-accident testing, especially at night. Management is proud of their safety record but underestimates compliance risks."
   },
   {
     "id": 4,
     "category": "B2B Enterprise",
-    "prospect": "Short-line railroad",
-    "trigger_pain": "New FRA oral-fluid rule",
-    "likely_objection": "Don\u2019t trust oral-fluid accuracy",
-    "arcpoint_solution": "Education + dual-matrix policy addendum"
+    "prospect": "Short-line Railroad",
+    "persona_name": "Lori",
+    "persona_role": "Safety Director",
+    "persona_background": "12 years in rail, skeptical of new tech, focused on union relations",
+    "arcpoint_familiarity": "Not familiar",
+    "trigger_pain": "New FRA oral-fluid rule confusion",
+    "likely_objection": "We don’t trust oral-fluid accuracy",
+    "arcpoint_solution": "Education + dual-matrix program; policy addendum",
+    "company_background": "A niche railroad serving local industrial customers. Strong union relationships but underinvested in compliance tools. Recently flagged by the FRA for slow adoption of oral-fluid testing. Leadership prefers trusted, practical partners."
   },
   {
     "id": 5,
     "category": "B2B Enterprise",
-    "prospect": "Pipeline contractor",
+    "prospect": "Pipeline Contractor",
+    "persona_name": "Carlos",
+    "persona_role": "Regional Safety Manager",
+    "persona_background": "10 years on pipelines, very hands-on, wants data proof",
+    "arcpoint_familiarity": "Somewhat familiar, neutral",
     "trigger_pain": "Missed 50% random rate",
-    "likely_objection": "Randoms disrupt schedules",
-    "arcpoint_solution": "Algorithmic randomization & onsite days"
+    "likely_objection": "Random selections disrupt schedules",
+    "arcpoint_solution": "Algorithmic randomization + pooled onsite days",
+    "company_background": "Regional pipeline construction firm working on major infrastructure projects. Known for skilled crews and tight deadlines but managing compliance mostly on paper. Failed to meet random testing benchmarks, putting contracts at risk."
   },
   {
     "id": 6,
     "category": "B2B Enterprise",
-    "prospect": "Charter-bus company",
-    "trigger_pain": "Canada expansion regulations",
+    "prospect": "Charter Bus Company",
+    "persona_name": "Jean",
+    "persona_role": "Owner",
+    "persona_background": "30 years in business, knows everyone local, wants low-maintenance vendors",
+    "arcpoint_familiarity": "Not familiar",
+    "trigger_pain": "Cross-border expansion Canada-US",
     "likely_objection": "Cross-border laws confuse us",
-    "arcpoint_solution": "DOT consulting + intl policy alignment"
+    "arcpoint_solution": "DOT consulting + international policy alignment",
+    "company_background": "Family-run operation with 25 buses handling school trips, church outings, casino runs. Middle of the road on quality. Minor FMCSA issues in the past but no major improvements. Decent local reputation but unaware corporate customers see them as behind on compliance."
   },
   {
     "id": 7,
     "category": "B2B Enterprise",
-    "prospect": "Oilfield service firm",
+    "prospect": "Oilfield Service Firm",
+    "persona_name": "Mike",
+    "persona_role": "Director of Safety",
+    "persona_background": "20 years in oil & gas, old-school, expects fast action",
+    "arcpoint_familiarity": "Very familiar, positive experience",
     "trigger_pain": "High post-accident positives",
-    "likely_objection": "Collectors 2h away",
-    "arcpoint_solution": "Train onsite collectors"
+    "likely_objection": "Collectors are 2 hrs away",
+    "arcpoint_solution": "Onsite collection room; train staff collectors",
+    "company_background": "Regional oilfield services leader with 1,000 employees. Provides equipment and crews across multiple states. Rugged operations but thin on admin. Runs 24/7 in remote areas, making post-accident testing hard to cover."
   },
   {
     "id": 8,
     "category": "B2B Enterprise",
-    "prospect": "Air-cargo handler",
-    "trigger_pain": "Audit; files scattered",
-    "likely_objection": "Docs in six spreadsheets",
-    "arcpoint_solution": "Total Reporting repository + audit kit"
+    "prospect": "Air-cargo Handler",
+    "persona_name": "Natalie",
+    "persona_role": "Compliance Officer",
+    "persona_background": "6 years in aviation, loves dashboards, hates paperwork",
+    "arcpoint_familiarity": "Very familiar, positive experience",
+    "trigger_pain": "Audit approaching; records scattered",
+    "likely_objection": "Docs live in six spreadsheets",
+    "arcpoint_solution": "Total Reporting central repository + audit kit",
+    "company_background": "Major air freight ground handler at a top-five U.S. airport. 500 employees, nonstop operations. Rapid growth has strained compliance systems. Management is tech-friendly and eager for smarter tools if ROI is clear."
   },
   {
     "id": 9,
     "category": "B2B Enterprise",
-    "prospect": "Agricultural co-op",
-    "trigger_pain": "State weed vs federal DOT",
-    "likely_objection": "Employees say weed legal",
-    "arcpoint_solution": "Policy rewrite clarifying zero tolerance"
+    "prospect": "Agricultural Co-op",
+    "persona_name": "Eli",
+    "persona_role": "General Manager",
+    "persona_background": "25 years in ag, skeptical of outsiders, pragmatic",
+    "arcpoint_familiarity": "Not familiar",
+    "trigger_pain": "Marijuana state law vs federal conflict",
+    "likely_objection": "Employees say weed is legal here",
+    "arcpoint_solution": "Policy rewrite clarifying DOT zero-tolerance",
+    "company_background": "Well-established ag co-op providing seed, fertilizer, and trucking to local farms. Proud of its independence. Up to date on local trends but unfamiliar with evolving DOT and drug-testing rules."
   },
   {
     "id": 10,
     "category": "B2B Enterprise",
-    "prospect": "Flatbed carrier",
-    "trigger_pain": "Merging two random pools",
+    "prospect": "Flatbed Carrier",
+    "persona_name": "Tammy",
+    "persona_role": "VP of Operations",
+    "persona_background": "15 years trucking ops, sharp negotiator, tech-savvy",
+    "arcpoint_familiarity": "Somewhat familiar, neutral",
+    "trigger_pain": "Merging two random pools after M&A",
     "likely_objection": "Which pool rules apply?",
-    "arcpoint_solution": "Pool consolidation + file merge"
-  },
-  {
-    "id": 11,
-    "category": "B2B Enterprise",
-    "prospect": "Municipal public-works",
-    "trigger_pain": "No suspicion-training supervisors",
-    "likely_objection": "Never had class",
-    "arcpoint_solution": "Signs & Symptoms course"
-  },
-  {
-    "id": 12,
-    "category": "B2B Enterprise",
-    "prospect": "Airport shuttle",
-    "trigger_pain": "Owner manages randoms",
-    "likely_objection": "TPA fees high",
-    "arcpoint_solution": "Non-compliance cost calculator"
-  },
-  {
-    "id": 13,
-    "category": "B2B Enterprise",
-    "prospect": "Waste-hauling firm",
-    "trigger_pain": "Expired MRO agreement",
-    "likely_objection": "Lab handles MRO?",
-    "arcpoint_solution": "Contracted MRO + auto alerts"
-  },
-  {
-    "id": 14,
-    "category": "B2B Enterprise",
-    "prospect": "Chemical distributor",
-    "trigger_pain": "Drivers resist saliva tests",
-    "likely_objection": "Oral fluid invasive",
-    "arcpoint_solution": "Education + matrix choice"
-  },
-  {
-    "id": 15,
-    "category": "B2B Enterprise",
-    "prospect": "Fire-suppression company",
-    "trigger_pain": "15 depots rapid expansion",
-    "likely_objection": "Need national network",
-    "arcpoint_solution": "ARCpoint nationwide sites"
-  },
-  {
-    "id": 16,
-    "category": "B2B Enterprise",
-    "prospect": "Regional airline",
-    "trigger_pain": "Rehiring surge delays results",
-    "likely_objection": "Lab turnaround slow",
-    "arcpoint_solution": "24h rapid eCCF workflow"
-  },
-  {
-    "id": 17,
-    "category": "B2B Enterprise",
-    "prospect": "Marine towing operator",
-    "trigger_pain": "Seasonal pool inefficient",
-    "likely_objection": "Sampling wastes money off-season",
-    "arcpoint_solution": "Dynamic pool recalculation"
-  },
-  {
-    "id": 18,
-    "category": "B2B Enterprise",
-    "prospect": "Produce hauler",
-    "trigger_pain": "DOT blitz looming",
-    "likely_objection": "Pre-audit records?",
-    "arcpoint_solution": "DOT mock audit"
-  },
-  {
-    "id": 19,
-    "category": "B2B Enterprise",
-    "prospect": "Utility contractor",
-    "trigger_pain": "Subcontractor compliance",
-    "likely_objection": "Can\u2019t track subs",
-    "arcpoint_solution": "Consortium pool & portal"
-  },
-  {
-    "id": 20,
-    "category": "B2B Enterprise",
-    "prospect": "Driver leasing agency",
-    "trigger_pain": "Clients need proof",
-    "likely_objection": "Too many result emails",
-    "arcpoint_solution": "Client dashboards Total Reporting"
-  },
-  {
-    "id": 21,
-    "category": "B2B Product",
-    "prospect": "Regional brewery",
-    "trigger_pain": "Need can-seam testers",
-    "likely_objection": "QC unsure maintenance",
-    "arcpoint_solution": "Onsite rapid panels"
-  },
-  {
-    "id": 22,
-    "category": "B2B Product",
-    "prospect": "Municipal bus fleet",
-    "trigger_pain": "Electric charger grants",
-    "likely_objection": "Council fixated on deadlines",
-    "arcpoint_solution": "Policy update + bundle"
-  },
-  {
-    "id": 23,
-    "category": "B2B Product",
-    "prospect": "Plastics extruder",
-    "trigger_pain": "Chiller 12-week lead",
-    "likely_objection": "Operations balk",
-    "arcpoint_solution": "Scheduler assist plan"
-  },
-  {
-    "id": 24,
-    "category": "B2B Product",
-    "prospect": "Ag-tech dealer",
-    "trigger_pain": "Smart valves skeptics",
-    "likely_objection": "Sensor durability",
-    "arcpoint_solution": "Policy dev support"
-  },
-  {
-    "id": 25,
-    "category": "B2B Product",
-    "prospect": "Frozen-food plant",
-    "trigger_pain": "X-ray false rejects",
-    "likely_objection": "False positive fear",
-    "arcpoint_solution": "QC integration service"
-  },
-  {
-    "id": 26,
-    "category": "B2B Product",
-    "prospect": "Printing company",
-    "trigger_pain": "Replace presses",
-    "likely_objection": "Need lease vs buy",
-    "arcpoint_solution": "Cost analysis consult"
-  },
-  {
-    "id": 27,
-    "category": "B2B Product",
-    "prospect": "Dental lab",
-    "trigger_pain": "5-axis mill training",
-    "likely_objection": "Owner worry training",
-    "arcpoint_solution": "Collector training"
-  },
-  {
-    "id": 28,
-    "category": "B2B Product",
-    "prospect": "Regional hospital",
-    "trigger_pain": "Negative-pressure rooms",
-    "likely_objection": "HVAC compatibility",
-    "arcpoint_solution": "Site audit mobile service"
-  },
-  {
-    "id": 29,
-    "category": "B2B Product",
-    "prospect": "Cinema chain",
-    "trigger_pain": "Laser projector ROI",
-    "likely_objection": "Lamps still profitable",
-    "arcpoint_solution": "ROI calculator"
-  },
-  {
-    "id": 30,
-    "category": "B2B Product",
-    "prospect": "Cold-storage warehouse",
-    "trigger_pain": "Rapid-roll door insulation",
-    "likely_objection": "GM skeptical",
-    "arcpoint_solution": "Demonstration & testing"
-  },
-  {
-    "id": 31,
-    "category": "B2B Product",
-    "prospect": "Forestry supplier",
-    "trigger_pain": "GPS ruggedness",
-    "likely_objection": "Harsh winters",
-    "arcpoint_solution": "Nationwide network"
-  },
-  {
-    "id": 32,
-    "category": "B2B Product",
-    "prospect": "Boutique hotel",
-    "trigger_pain": "Smart locks adoption",
-    "likely_objection": "Guests app adoption",
-    "arcpoint_solution": "Training materials"
-  },
-  {
-    "id": 33,
-    "category": "B2B Product",
-    "prospect": "Marine repair yard",
-    "trigger_pain": "Torque wrench pricing",
-    "likely_objection": "Need bundle discount",
-    "arcpoint_solution": "Bundled service offer"
-  },
-  {
-    "id": 34,
-    "category": "B2B Product",
-    "prospect": "Craft distillery",
-    "trigger_pain": "Boiler footprint",
-    "likely_objection": "Historic building",
-    "arcpoint_solution": "Mobile collections"
-  },
-  {
-    "id": 35,
-    "category": "B2B Product",
-    "prospect": "Regional dairy",
-    "trigger_pain": "Packaging spare parts",
-    "likely_objection": "Parts availability",
-    "arcpoint_solution": "Nationwide spare program"
-  },
-  {
-    "id": 36,
-    "category": "B2B Product",
-    "prospect": "Local print shop",
-    "trigger_pain": "UV flatbed safety",
-    "likely_objection": "Owner safety regs",
-    "arcpoint_solution": "Supervisor safety training"
-  },
-  {
-    "id": 37,
-    "category": "B2B Product",
-    "prospect": "Municipal water plant",
-    "trigger_pain": "Chlorine analyzer drift",
-    "likely_objection": "Tech doubts specs",
-    "arcpoint_solution": "Quality documentation"
-  },
-  {
-    "id": 38,
-    "category": "B2B Product",
-    "prospect": "Construction rental",
-    "trigger_pain": "Battery lift runtime",
-    "likely_objection": "Crew demand longer",
-    "arcpoint_solution": "Maintenance plan"
-  },
-  {
-    "id": 39,
-    "category": "B2B Product",
-    "prospect": "Food-truck builder",
-    "trigger_pain": "Lithium fire code",
-    "likely_objection": "Fire-code compliance",
-    "arcpoint_solution": "Compliance consulting"
-  },
-  {
-    "id": 40,
-    "category": "B2B Product",
-    "prospect": "Biotech startup",
-    "trigger_pain": "Fermenter budget SBIR",
-    "likely_objection": "Limited funds",
-    "arcpoint_solution": "Phase payment plan"
-  },
-  {
-    "id": 41,
-    "category": "B2B Service",
-    "prospect": "SaaS vendor",
-    "trigger_pain": "SOC-2 audit needed",
-    "likely_objection": "Consultant ROI",
-    "arcpoint_solution": "SOC-2 readiness audit"
-  },
-  {
-    "id": 42,
-    "category": "B2B Service",
-    "prospect": "Regional bank",
-    "trigger_pain": "DEI training",
-    "likely_objection": "Manager pushback",
-    "arcpoint_solution": "Balanced DEI modules"
-  },
-  {
-    "id": 43,
-    "category": "B2B Service",
-    "prospect": "Manufacturing SME",
-    "trigger_pain": "Lean coaching",
-    "likely_objection": "Consultants left binders",
-    "arcpoint_solution": "Hands-on Lean consulting"
-  },
-  {
-    "id": 44,
-    "category": "B2B Service",
-    "prospect": "Gym chain",
-    "trigger_pain": "Cleaning services",
-    "likely_objection": "Hidden fees before",
-    "arcpoint_solution": "Transparent billing service"
-  },
-  {
-    "id": 45,
-    "category": "B2B Service",
-    "prospect": "E-commerce brand",
-    "trigger_pain": "3PL outsource",
-    "likely_objection": "Brand unboxing concern",
-    "arcpoint_solution": "Quality benchmarks"
-  },
-  {
-    "id": 46,
-    "category": "B2B Service",
-    "prospect": "Architectural firm",
-    "trigger_pain": "BIM-AR content",
-    "likely_objection": "Unsure client demand",
-    "arcpoint_solution": "Pilot sample"
-  },
-  {
-    "id": 47,
-    "category": "B2B Service",
-    "prospect": "Food startup",
-    "trigger_pain": "Fractional CFO",
-    "likely_objection": "CEO control fear",
-    "arcpoint_solution": "Clear engagement terms"
-  },
-  {
-    "id": 48,
-    "category": "B2B Service",
-    "prospect": "Regional college",
-    "trigger_pain": "Fundraising call center",
-    "likely_objection": "Donor fatigue",
-    "arcpoint_solution": "Data-driven script testing"
-  },
-  {
-    "id": 49,
-    "category": "B2B Service",
-    "prospect": "Solar installer",
-    "trigger_pain": "HR/payroll outsource",
-    "likely_objection": "Onboarding speed",
-    "arcpoint_solution": "SLA guarantee"
-  },
-  {
-    "id": 50,
-    "category": "B2B Service",
-    "prospect": "Legal-tech company",
-    "trigger_pain": "Pen testing",
-    "likely_objection": "Dev team self-test",
-    "arcpoint_solution": "External pen-test benefits"
-  },
-  {
-    "id": 51,
-    "category": "B2B Service",
-    "prospect": "Boutique winery",
-    "trigger_pain": "Export compliance",
-    "likely_objection": "Paperwork cost",
-    "arcpoint_solution": "Flat-fee compliance"
-  },
-  {
-    "id": 52,
-    "category": "B2B Service",
-    "prospect": "Prop-tech startup",
-    "trigger_pain": "24/7 chat agents",
-    "likely_objection": "Real estate fluency",
-    "arcpoint_solution": "Agent training stamp"
-  },
-  {
-    "id": 53,
-    "category": "B2B Service",
-    "prospect": "Credit union",
-    "trigger_pain": "IT managed services",
-    "likely_objection": "Lose on-call control",
-    "arcpoint_solution": "Escalation matrix"
-  },
-  {
-    "id": 54,
-    "category": "B2B Service",
-    "prospect": "Regional airline",
-    "trigger_pain": "Leadership coaching",
-    "likely_objection": "Union seniority",
-    "arcpoint_solution": "Customized curriculum"
-  },
-  {
-    "id": 55,
-    "category": "B2B Service",
-    "prospect": "City government",
-    "trigger_pain": "Smart parking support",
-    "likely_objection": "Resident backlash",
-    "arcpoint_solution": "Public ed program"
-  },
-  {
-    "id": 56,
-    "category": "B2B Service",
-    "prospect": "Wholesale bakery",
-    "trigger_pain": "ERP data cleanup",
-    "likely_objection": "Timeline realism",
-    "arcpoint_solution": "Phased deliverables"
-  },
-  {
-    "id": 57,
-    "category": "B2B Service",
-    "prospect": "Independent school",
-    "trigger_pain": "Security guard firm",
-    "likely_objection": "Diverse staffing",
-    "arcpoint_solution": "Vendor diversity plan"
-  },
-  {
-    "id": 58,
-    "category": "B2B Service",
-    "prospect": "Tech scale-up",
-    "trigger_pain": "Exec search",
-    "likely_objection": "25% fee balk",
-    "arcpoint_solution": "Success-based pricing"
-  },
-  {
-    "id": 59,
-    "category": "B2B Service",
-    "prospect": "Healthcare clinics",
-    "trigger_pain": "Medical coding outsource",
-    "likely_objection": "Doc error fears",
-    "arcpoint_solution": "Coder QA audits"
-  },
-  {
-    "id": 60,
-    "category": "B2B Service",
-    "prospect": "Industrial distributor",
-    "trigger_pain": "Content marketing",
-    "likely_objection": "Lead quality skepticism",
-    "arcpoint_solution": "KPIs & reporting"
-  },
-  {
-    "id": 61,
-    "category": "B2B SaaS",
-    "prospect": "Fin-tech scale-up",
-    "trigger_pain": "RevOps SaaS",
-    "likely_objection": "CRO loves spreadsheets",
-    "arcpoint_solution": "Integrations & dashboards"
-  },
-  {
-    "id": 62,
-    "category": "B2B SaaS",
-    "prospect": "Auto-parts wholesaler",
-    "trigger_pain": "CPQ platform",
-    "likely_objection": "ERP integration doubt",
-    "arcpoint_solution": "API demo"
-  },
-  {
-    "id": 63,
-    "category": "B2B SaaS",
-    "prospect": "Bio-pharma lab",
-    "trigger_pain": "ELN adoption",
-    "likely_objection": "Scientists love paper",
-    "arcpoint_solution": "Change management plan"
-  },
-  {
-    "id": 64,
-    "category": "B2B SaaS",
-    "prospect": "Global NGO",
-    "trigger_pain": "Grant management",
-    "likely_objection": "Budget cycles",
-    "arcpoint_solution": "Flexible pricing tiers"
-  },
-  {
-    "id": 65,
-    "category": "B2B SaaS",
-    "prospect": "Regional bank",
-    "trigger_pain": "AI fraud SaaS",
-    "likely_objection": "Model explainability",
-    "arcpoint_solution": "Transparent AI reports"
-  },
-  {
-    "id": 66,
-    "category": "B2B SaaS",
-    "prospect": "IoT startup",
-    "trigger_pain": "Device fleet SaaS",
-    "likely_objection": "IT wants on-prem",
-    "arcpoint_solution": "Hybrid deployment"
-  },
-  {
-    "id": 67,
-    "category": "B2B SaaS",
-    "prospect": "Ad agency",
-    "trigger_pain": "PM SaaS",
-    "likely_objection": "Creatives hate time tracking",
-    "arcpoint_solution": "Gamified UX"
-  },
-  {
-    "id": 68,
-    "category": "B2B SaaS",
-    "prospect": "Telehealth provider",
-    "trigger_pain": "Patient engagement",
-    "likely_objection": "HIPAA hosting",
-    "arcpoint_solution": "Compliance proof"
-  },
-  {
-    "id": 69,
-    "category": "B2B SaaS",
-    "prospect": "Law firm",
-    "trigger_pain": "E-discovery SaaS",
-    "likely_objection": "Vendor \u201cgood enough\u201d",
-    "arcpoint_solution": "Feature comparison"
-  },
-  {
-    "id": 70,
-    "category": "B2B SaaS",
-    "prospect": "Logistics 3PL",
-    "trigger_pain": "Route optimization",
-    "likely_objection": "Driver app adoption",
-    "arcpoint_solution": "Training & offline mode"
-  },
-  {
-    "id": 71,
-    "category": "B2B SaaS",
-    "prospect": "Consumer-goods brand",
-    "trigger_pain": "DAM global",
-    "likely_objection": "Migration pain",
-    "arcpoint_solution": "White-glove import"
-  },
-  {
-    "id": 72,
-    "category": "B2B SaaS",
-    "prospect": "University network",
-    "trigger_pain": "Research compliance",
-    "likely_objection": "Faculty fees",
-    "arcpoint_solution": "Department billing options"
-  },
-  {
-    "id": 73,
-    "category": "B2B SaaS",
-    "prospect": "Regional hospital",
-    "trigger_pain": "RPA billing",
-    "likely_objection": "Union resistance",
-    "arcpoint_solution": "Job-impact communication"
-  },
-  {
-    "id": 74,
-    "category": "B2B SaaS",
-    "prospect": "Construction GC",
-    "trigger_pain": "Bid management",
-    "likely_objection": "Estimators love sheets",
-    "arcpoint_solution": "Spreadsheet import"
-  },
-  {
-    "id": 75,
-    "category": "B2B SaaS",
-    "prospect": "Ag cooperative",
-    "trigger_pain": "Crop analytics",
-    "likely_objection": "Satellite accuracy",
-    "arcpoint_solution": "Ground-truth calibration"
-  },
-  {
-    "id": 76,
-    "category": "B2B SaaS",
-    "prospect": "Cybersecurity MSSP",
-    "trigger_pain": "Client reporting",
-    "likely_objection": "Need white-label",
-    "arcpoint_solution": "Custom themes"
-  },
-  {
-    "id": 77,
-    "category": "B2B SaaS",
-    "prospect": "Franchise restaurant",
-    "trigger_pain": "Scheduling SaaS",
-    "likely_objection": "Managers fear monitoring",
-    "arcpoint_solution": "Privacy controls"
-  },
-  {
-    "id": 78,
-    "category": "B2B SaaS",
-    "prospect": "Non-profit theatre",
-    "trigger_pain": "CRM box office",
-    "likely_objection": "Ticket fee sharing",
-    "arcpoint_solution": "Revenue split data"
-  },
-  {
-    "id": 79,
-    "category": "B2B SaaS",
-    "prospect": "Industrial supplier",
-    "trigger_pain": "PIM e-commerce",
-    "likely_objection": "SSO & API pricing",
-    "arcpoint_solution": "Modular pricing"
-  },
-  {
-    "id": 80,
-    "category": "B2B SaaS",
-    "prospect": "Regional airline",
-    "trigger_pain": "Predictive maintenance",
-    "likely_objection": "Cloud uptime SLA",
-    "arcpoint_solution": "99.99 SLA contract"
-  },
-  {
-    "id": 81,
-    "category": "DOT Consulting",
-    "prospect": "Start-up fleet",
-    "trigger_pain": "Forms overwhelm",
-    "likely_objection": "DIY files",
-    "arcpoint_solution": "Titan managed DQF"
-  },
-  {
-    "id": 82,
-    "category": "DOT Consulting",
-    "prospect": "Hazmat hauler",
-    "trigger_pain": "Missing med cards",
-    "likely_objection": "Files scattered",
-    "arcpoint_solution": "Titan cloud reminders"
-  },
-  {
-    "id": 83,
-    "category": "DOT Consulting",
-    "prospect": "Charter bus",
-    "trigger_pain": "FMCSA audit",
-    "likely_objection": "Consulting fee high",
-    "arcpoint_solution": "Audit penalty compare"
-  },
-  {
-    "id": 84,
-    "category": "DOT Consulting",
-    "prospect": "Cement mixer fleet",
-    "trigger_pain": "New HR manager",
-    "likely_objection": "Don't know rules",
-    "arcpoint_solution": "DOT handbook"
-  },
-  {
-    "id": 85,
-    "category": "DOT Consulting",
-    "prospect": "Expedited freight",
-    "trigger_pain": "Driver turnover",
-    "likely_objection": "Constant updates",
-    "arcpoint_solution": "Bulk import auto MVR"
-  },
-  {
-    "id": 86,
-    "category": "DOT Consulting",
-    "prospect": "Mobile crane rental",
-    "trigger_pain": "CSA alert",
-    "likely_objection": "Quick fix only",
-    "arcpoint_solution": "Hot-line retainer"
-  },
-  {
-    "id": 87,
-    "category": "DOT Consulting",
-    "prospect": "Regional LTL",
-    "trigger_pain": "Expired docs",
-    "likely_objection": "Emails ignored",
-    "arcpoint_solution": "SMS notifications"
-  },
-  {
-    "id": 88,
-    "category": "DOT Consulting",
-    "prospect": "Pipeline welders",
-    "trigger_pain": "DOT applicability",
-    "likely_objection": "Gray area",
-    "arcpoint_solution": "Scope analysis"
-  },
-  {
-    "id": 89,
-    "category": "DOT Consulting",
-    "prospect": "FedEx contractor",
-    "trigger_pain": "ISP letter",
-    "likely_objection": "Corp audits",
-    "arcpoint_solution": "Gap plug service"
-  },
-  {
-    "id": 90,
-    "category": "DOT Consulting",
-    "prospect": "Tour bus",
-    "trigger_pain": "Medical cert backlog",
-    "likely_objection": "Clinic delays",
-    "arcpoint_solution": "Coordination & portal"
-  },
-  {
-    "id": 91,
-    "category": "DOT Consulting",
-    "prospect": "Produce shipper",
-    "trigger_pain": "ELD violations",
-    "likely_objection": "Relation to DQF?",
-    "arcpoint_solution": "Integrated review"
-  },
-  {
-    "id": 92,
-    "category": "DOT Consulting",
-    "prospect": "Tanker carrier",
-    "trigger_pain": "Canadian regs",
-    "likely_objection": "Two systems",
-    "arcpoint_solution": "Cross-border DQF"
-  },
-  {
-    "id": 93,
-    "category": "DOT Consulting",
-    "prospect": "Airport fueler",
-    "trigger_pain": "Dual badges",
-    "likely_objection": "Separate files",
-    "arcpoint_solution": "Merge in Titan"
-  },
-  {
-    "id": 94,
-    "category": "DOT Consulting",
-    "prospect": "Snow-removal contractor",
-    "trigger_pain": "Seasonal drivers",
-    "likely_objection": "Year-round fee waste",
-    "arcpoint_solution": "Seasonal pricing"
-  },
-  {
-    "id": 95,
-    "category": "DOT Consulting",
-    "prospect": "Ready-mix company",
-    "trigger_pain": "Manual randoms",
-    "likely_objection": "Titan doubts",
-    "arcpoint_solution": "Random generator demo"
-  },
-  {
-    "id": 96,
-    "category": "DOT Consulting",
-    "prospect": "Grain hauler",
-    "trigger_pain": "Owner-operators",
-    "likely_objection": "OO resists portal",
-    "arcpoint_solution": "Self-serve login"
-  },
-  {
-    "id": 97,
-    "category": "DOT Consulting",
-    "prospect": "Moving company",
-    "trigger_pain": "Multi-state terminals",
-    "likely_objection": "Central visibility",
-    "arcpoint_solution": "Corporate dashboard"
-  },
-  {
-    "id": 98,
-    "category": "DOT Consulting",
-    "prospect": "Livestock transport",
-    "trigger_pain": "Sleep apnea flags",
-    "likely_objection": "Privacy worries",
-    "arcpoint_solution": "HIPAA-secure notes"
-  },
-  {
-    "id": 99,
-    "category": "DOT Consulting",
-    "prospect": "Wind-farm hauler",
-    "trigger_pain": "Oversize escorts",
-    "likely_objection": "Non-CDL escorts",
-    "arcpoint_solution": "DQF applicability policy"
-  },
-  {
-    "id": 100,
-    "category": "DOT Consulting",
-    "prospect": "Beverage distributor",
-    "trigger_pain": "M&A 150 drivers",
-    "likely_objection": "File migration painful",
-    "arcpoint_solution": "Import & gap analysis"
+    "arcpoint_solution": "Pool consolidation + driver file merge",
+    "company_background": "Regional flatbed carrier that just merged with a competitor, doubling fleet size. Known for fast deliveries. The merger has created operational and compliance chaos. Leadership is ambitious but wants solutions that simplify, not complicate."
   }
 ]
