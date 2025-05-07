@@ -26,7 +26,7 @@ scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENA
 choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
 current = SCENARIOS[scenario_names.index(choice)]
 
-# Display scenario details for the trainee
+# Display scenario details for trainee
 st.markdown(f"""
 **Prospect Company:** {current['prospect']}  
 **Category:** {current['category']}  
@@ -42,7 +42,7 @@ if "messages" not in st.session_state:
         {"role": "system", "content":
          f"You are role-playing as {current['persona_name']}, the {current['persona_role']} at {current['prospect']}. "
          f"Background: {current['persona_background']}. "
-         f"You are {current['arcpoint_familiarity']} with ARCpoint Labs. "
+         f"You are {current['arcpoint_familiarity']} with ARCpoint Labs, but you are not currently using ARCpoint as a vendor. "
          f"Internally, you have the following pain point: {current['trigger_pain']} "
          f"and the following likely objection: {current['likely_objection']}. "
          f"Do NOT reveal the pain or objection unless the salesperson asks thoughtful, relevant questions. "
@@ -64,7 +64,7 @@ if user_input:
 
     st.session_state.messages.append({"role": "assistant", "content": prospect_reply})
 
-# Display chat
+# Display chat history
 for msg in st.session_state.messages[1:]:
     if msg["role"] == "user":
         st.chat_message("user").write(msg["content"])
@@ -77,7 +77,7 @@ if st.sidebar.button("🔄 Reset Chat"):
         {"role": "system", "content":
          f"You are role-playing as {current['persona_name']}, the {current['persona_role']} at {current['prospect']}. "
          f"Background: {current['persona_background']}. "
-         f"You are {current['arcpoint_familiarity']} with ARCpoint Labs. "
+         f"You are {current['arcpoint_familiarity']} with ARCpoint Labs, but you are not currently using ARCpoint as a vendor. "
          f"Internally, you have the following pain point: {current['trigger_pain']} "
          f"and the following likely objection: {current['likely_objection']}. "
          f"Do NOT reveal the pain or objection unless the salesperson asks thoughtful, relevant questions. "
