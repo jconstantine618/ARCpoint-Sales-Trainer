@@ -5,14 +5,23 @@ import json
 import pathlib
 from gtts import gTTS
 
-# Scoring function — runs locally, no OpenAI call
+# Scoring function — improved close detection
 def calculate_score(messages):
     total_points = 0
     principle_points = min(len([m for m in messages if m["role"] == "user"]), 30) * 3
     total_points += min(principle_points, 90)
-    sale_closed = any("yes" in m["content"].lower() for m in messages[-3:])
+
+    # Check for multiple success phrases
+    success_phrases = [
+        "yes", "let's move forward", "ready to proceed",
+        "let's get started", "i'm excited to begin", "move forward with this partnership"
+    ]
+    last_responses = " ".join(m["content"].lower() for m in messages[-3:])
+    sale_closed = any(phrase in last_responses for phrase in success_phrases)
+
     if sale_closed:
         total_points += 30
+
     summary = "✅ You hit several key principles.\n" if total_points >= 70 else "⚠️ You missed important objections or pain points.\n"
     summary += f"Principle points: {principle_points}/90\n"
     summary += f"Sale close bonus: {'30' if sale_closed else '0'}/30\n"
@@ -109,7 +118,7 @@ if st.sidebar.button("🔄 Reset Chat"):
     st.session_state.closed = False
     st.session_state.loading_score = False
     st.session_state.score_result = ""
-    st.rerun()  # ← fixed from experimental_rerun
+    st.rerun()
 
 # Sidebar: End Chat button
 end_chat_label = "🔚 End Chat" if not st.session_state.loading_score else "⏳ Please wait while we are generating your score..."
