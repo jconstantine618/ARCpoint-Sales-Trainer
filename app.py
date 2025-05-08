@@ -5,7 +5,7 @@ import json
 import pathlib
 from gtts import gTTS
 
-# Scoring function — moved to top
+# Scoring function — runs locally, no OpenAI call
 def calculate_score(messages):
     total_points = 0
     principle_points = min(len([m for m in messages if m["role"] == "user"]), 30) * 3
@@ -64,12 +64,16 @@ if "last_scenario" not in st.session_state:
 if choice != st.session_state.last_scenario:
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
+    st.session_state.loading_score = False
+    st.session_state.score_result = ""
     st.session_state.last_scenario = choice
 
-# Initialize messages
+# Initialize session state
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
+    st.session_state.loading_score = False
+    st.session_state.score_result = ""
 
 # Chat input
 user_input = st.chat_input("Your message to the prospect")
@@ -86,17 +90,6 @@ if user_input and not st.session_state.closed:
     reply = response.choices[0].message.content.strip()
     st.session_state.messages.append({"role": "assistant", "content": reply})
 
-    if any(phrase in user_input.lower() for phrase in ["move forward", "sign up", "get started", "ready to proceed"]):
-        score, summary = calculate_score(st.session_state.messages)
-        st.session_state.closed = True
-        st.success(f"🏆 Final Score: {score}/100")
-        st.write(summary)
-        if score >= 70:
-            st.balloons()
-            st.write("🎉 You closed the sale! Excellent job!")
-        else:
-            st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
-
 # Show chat history + voice
 for msg in st.session_state.messages[1:]:
     if msg["role"] == "user":
@@ -110,21 +103,24 @@ for msg in st.session_state.messages[1:]:
             audio_bytes = audio_file.read()
             st.audio(audio_bytes, format="audio/mp3")
 
-# Reset button
+# Sidebar: Reset button
 if st.sidebar.button("🔄 Reset Chat"):
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
     st.session_state.closed = False
-    st.experimental_rerun()
+    st.session_state.loading_score = False
+    st.session_state.score_result = ""
+    st.rerun()  # ← fixed from experimental_rerun
 
-# End Chat button
-if st.sidebar.button("🔚 End Chat"):
-    if not st.session_state.closed:
+# Sidebar: End Chat button
+end_chat_label = "🔚 End Chat" if not st.session_state.loading_score else "⏳ Please wait while we are generating your score..."
+if st.sidebar.button(end_chat_label):
+    if not st.session_state.closed and not st.session_state.loading_score:
+        st.session_state.loading_score = True
         score, summary = calculate_score(st.session_state.messages)
         st.session_state.closed = True
-        st.success(f"🏆 Final Score: {score}/100")
-        st.write(summary)
-        if score >= 70:
-            st.balloons()
-            st.write("🎉 You closed the sale! Excellent job!")
-        else:
-            st.write("❗ Sale not closed or too many gaps. Review the chat and try again!")
+        st.session_state.loading_score = False
+        st.session_state.score_result = f"🏆 **Final Score: {score}/100**\n\n{summary}"
+
+# Sidebar: Display score below button
+if st.session_state.score_result:
+    st.sidebar.markdown(st.session_state.score_result)
