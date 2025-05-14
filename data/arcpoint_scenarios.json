@@ -2,11 +2,51 @@
   {
     "id": 1,
     "prospect": "Global Automaker",
+    "industry": "Manufacturing",
     "category": "B2B Enterprise",
-    "persona_name": "Sarah",
-    "persona_role": "Compliance Director",
-    "persona_background": "Sarah has 15 years in manufacturing compliance and safety oversight.",
-    "difficulty": "Medium",
+    "decision_makers": [
+      {
+        "persona_name": "Sarah",
+        "persona_role": "Compliance Director",
+        "persona_background": "15 years in manufacturing compliance and safety oversight",
+        "influence": 0.7,
+        "mood": {
+          "today": "stressed",
+          "receptivity": 0.5
+        },
+        "time_availability": {
+          "window": "5-10"
+        },
+        "pain_points": [
+          "last year’s DOT audit failures",
+          "driver turnover costs",
+          "emerging state regulations"
+        ],
+        "buying_trigger": "recent OSHA warning letter"
+      },
+      {
+        "persona_name": "Tom",
+        "persona_role": "Chief Financial Officer",
+        "persona_background": "20 years in automotive finance and cost controls",
+        "influence": 0.8,
+        "mood": {
+          "today": "neutral",
+          "receptivity": 0.6
+        },
+        "time_availability": {
+          "window": "<5"
+        },
+        "pain_points": [
+          "high OPEX on external vendors",
+          "pressure to hit quarterly targets"
+        ],
+        "buying_trigger": "upcoming budget review"
+      }
+    ],
+    "difficulty": {
+      "level": "Medium",
+      "challenge_factor": 1.2
+    },
     "state": "Michigan",
     "marijuana_legality": "Prescription only",
     "random_program": "Yes",
@@ -15,158 +55,5 @@
     "clearinghouse_knowledge": "Somewhat informed",
     "total_employees": 1200,
     "dot_employees": 150
-  },
-  {
-    "id": 2,
-    "prospect": "GreenHaul Trucking",
-    "category": "B2B SMB",
-    "persona_name": "Marcus",
-    "persona_role": "Safety Manager",
-    "persona_background": "Marcus has 12 years in trucking compliance at GreenHaul.",
-    "difficulty": "Hard",
-    "state": "Texas",
-    "marijuana_legality": "Not legal",
-    "random_program": "No",
-    "supervisor_training": "No",
-    "drug_policy_update": "More than a year ago",
-    "clearinghouse_knowledge": "Very informed",
-    "total_employees": 300,
-    "dot_employees": 80
-  },
-  {
-    "id": 3,
-    "prospect": "Pipeline Contractor",
-    "category": "B2B Enterprise",
-    "persona_name": "James",
-    "persona_role": "HR Director",
-    "persona_background": "James oversees compliance and workforce safety for a large pipeline firm.",
-    "difficulty": "Hard",
-    "state": "North Dakota",
-    "marijuana_legality": "Not legal",
-    "random_program": "Yes",
-    "supervisor_training": "Yes",
-    "drug_policy_update": "Less than six months ago",
-    "clearinghouse_knowledge": "Very informed",
-    "total_employees": 500,
-    "dot_employees": 200
-  },
-  {
-    "id": 4,
-    "prospect": "National Telecom",
-    "category": "B2B Enterprise",
-    "persona_name": "Karen",
-    "persona_role": "Risk Manager",
-    "persona_background": "Karen manages fleet safety for telecom service trucks nationwide.",
-    "difficulty": "Medium",
-    "state": "California",
-    "marijuana_legality": "Recreationally legal",
-    "random_program": "Yes",
-    "supervisor_training": "No",
-    "drug_policy_update": "About a year ago",
-    "clearinghouse_knowledge": "Somewhat informed",
-    "total_employees": 2000,
-    "dot_employees": 300
-  },
-  {
-    "id": 5,
-    "prospect": "Short-line Railroad",
-    "category": "B2B Enterprise",
-    "persona_name": "Tom",
-    "persona_role": "Operations Director",
-    "persona_background": "Tom has a background in rail logistics and oversees compliance.",
-    "difficulty": "Hard",
-    "state": "Illinois",
-    "marijuana_legality": "Prescription only",
-    "random_program": "Yes",
-    "supervisor_training": "Yes",
-    "drug_policy_update": "About a year ago",
-    "clearinghouse_knowledge": "Very informed",
-    "total_employees": 600,
-    "dot_employees": 250
-  },
-  {
-    "id": 6,
-    "prospect": "Local Construction Firm",
-    "category": "B2B SMB",
-    "persona_name": "Linda",
-    "persona_role": "Office Manager",
-    "persona_background": "Linda handles HR and compliance for a family-owned contractor.",
-    "difficulty": "Easy",
-    "state": "Florida",
-    "marijuana_legality": "Prescription only",
-    "random_program": "No",
-    "supervisor_training": "No",
-    "drug_policy_update": "More than a year ago",
-    "clearinghouse_knowledge": "Completely clueless",
-    "total_employees": 50,
-    "dot_employees": 20
-  },
-  {
-    "id": 7,
-    "prospect": "CPA Firm",
-    "category": "B2B SMB",
-    "persona_name": "Rebecca",
-    "persona_role": "Managing Partner",
-    "persona_background": "Rebecca leads a regional CPA firm with a growing staff.",
-    "difficulty": "Easy",
-    "state": "New York",
-    "marijuana_legality": "Recreationally legal",
-    "random_program": "No",
-    "supervisor_training": "No",
-    "drug_policy_update": "More than a year ago",
-    "clearinghouse_knowledge": "Completely clueless",
-    "total_employees": 40,
-    "dot_employees": 0
-  },
-  {
-    "id": 8,
-    "prospect": "Food Delivery SaaS",
-    "category": "B2B SaaS",
-    "persona_name": "Alex",
-    "persona_role": "HR Lead",
-    "persona_background": "Alex handles HR policies for a fast-growing delivery app startup.",
-    "difficulty": "Medium",
-    "state": "Oregon",
-    "marijuana_legality": "Recreationally legal",
-    "random_program": "No",
-    "supervisor_training": "No",
-    "drug_policy_update": "About a year ago",
-    "clearinghouse_knowledge": "Somewhat informed",
-    "total_employees": 150,
-    "dot_employees": 10
-  },
-  {
-    "id": 9,
-    "prospect": "Medical Device Distributor",
-    "category": "B2B SMB",
-    "persona_name": "Nina",
-    "persona_role": "Compliance Officer",
-    "persona_background": "Nina oversees quality control and compliance across all field reps.",
-    "difficulty": "Medium",
-    "state": "Massachusetts",
-    "marijuana_legality": "Recreationally legal",
-    "random_program": "Yes",
-    "supervisor_training": "Yes",
-    "drug_policy_update": "Less than six months ago",
-    "clearinghouse_knowledge": "Very informed",
-    "total_employees": 250,
-    "dot_employees": 50
-  },
-  {
-    "id": 10,
-    "prospect": "Hazmat Tanker Fleet",
-    "category": "B2B Enterprise",
-    "persona_name": "Bubba",
-    "persona_role": "HR Manager",
-    "persona_background": "Bubba has 5 years managing HR for a fleet hauling hazardous materials.",
-    "difficulty": "Hard",
-    "state": "Louisiana",
-    "marijuana_legality": "Not legal",
-    "random_program": "Yes",
-    "supervisor_training": "Yes",
-    "drug_policy_update": "Less than six months ago",
-    "clearinghouse_knowledge": "Very informed",
-    "total_employees": 400,
-    "dot_employees": 300
   }
 ]
