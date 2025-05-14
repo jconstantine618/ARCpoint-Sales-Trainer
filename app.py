@@ -6,6 +6,7 @@ import pathlib
 import time
 import sqlite3
 import datetime
+import base64
 from gtts import gTTS
 
 # --- Database Setup for Leaderboard ---
@@ -29,7 +30,6 @@ def calculate_score(messages):
     principle_points = min(len([m for m in messages if m["role"] == "user"]), 30) * 3
     total_points += min(principle_points, 90)
 
-    # Check for multiple success phrases
     success_phrases = [
         "yes", "let's move forward", "ready to proceed",
         "let's get started", "i'm excited to begin", "move forward with this partnership"
@@ -83,7 +83,20 @@ with open(DATA_PATH) as f:
 
 # --- UI setup ---
 st.set_page_config(page_title="ARCpoint Sales Trainer", page_icon="💬")
-st.title("💬 TPA Sales Training Chatbot")
+st.title("💬 ARCpoint Sales Training Chatbot")
+
+# --- Download Sales Playbook Button ---
+pdf_path = pathlib.Path(__file__).parent / "TPA Solutions Play Book.pdf"
+if pdf_path.exists():
+    with open(pdf_path, "rb") as f:
+        pdf_bytes = f.read()
+    b64 = base64.b64encode(pdf_bytes).decode()
+    playbook_link = (
+        f'<a href="data:application/pdf;base64,{b64}" download="TPA_Solutions_Play_Book.pdf">'
+        '<button style="background-color:red;color:white;width:100%;padding:8px;border:none;border-radius:4px;">'
+        'Download Sales Playbook</button></a>'
+    )
+    st.sidebar.markdown(playbook_link, unsafe_allow_html=True)
 
 # --- Sidebar controls ---
 scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENARIOS]
@@ -131,10 +144,7 @@ init_timer()
 # --- Chat input and processing ---
 user_input = st.chat_input("Your message to the prospect")
 if user_input and not st.session_state.closed:
-    # Append user message
     st.session_state.messages.append({"role": "user", "content": user_input})
-
-    # Check time cap before AI call
     if check_time_cap(current_persona):
         timeout_msg = (
             f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. "
@@ -142,7 +152,6 @@ if user_input and not st.session_state.closed:
         )
         st.session_state.messages.append({"role": "assistant", "content": timeout_msg})
     else:
-        # Build message list and send to OpenAI
         messages = [{"role": "system", "content": system_prompt}] + st.session_state.messages[1:]
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -187,8 +196,6 @@ if st.sidebar.button(end_label):
 # --- Show score and leaderboard ---
 if st.session_state.score_result:
     st.sidebar.markdown(st.session_state.score_result)
-
-    # Prompt for saving to leaderboard
     if st.session_state.closed and not st.session_state.leaderboard_inserted:
         st.sidebar.write("### Save your result to the leaderboard")
         st.sidebar.text_input("Your name:", key="leaderboard_name")
@@ -202,9 +209,7 @@ if st.session_state.score_result:
                 conn.commit()
                 st.session_state.leaderboard_inserted = True
                 st.sidebar.success("Your score has been recorded!")
-
-    # Display top 10 leaderboard
-    st.sidebar.write("### Top 10 Recent Scores")
+    st.sidebar.write("### Top 10 All-Time Scores")
     rows = c.execute(
         "SELECT name, score FROM leaderboard ORDER BY score DESC, timestamp ASC LIMIT 10"
     ).fetchall()
