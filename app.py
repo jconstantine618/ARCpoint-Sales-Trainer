@@ -13,14 +13,15 @@ from gtts import gTTS
 DB_PATH = pathlib.Path(__file__).parent / "leaderboard.db"
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 c = conn.cursor()
-c.execute("""
-CREATE TABLE IF NOT EXISTS leaderboard (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    score INTEGER,
-    timestamp DATETIME
-)
-"""
+c.execute(
+    """
+    CREATE TABLE IF NOT EXISTS leaderboard (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        score INTEGER,
+        timestamp DATETIME
+    )
+    """
 )
 conn.commit()
 
@@ -51,18 +52,9 @@ def init_timer():
         st.session_state.chat_start = time.time()
         st.session_state.chat_ended = False
 
-
 def check_time_cap(persona):
     window = persona['time_availability']['window']
-    if window == '<5':
-        max_minutes = 5
-    elif window == '5-10':
-        max_minutes = 10
-    elif window == '10-15':
-        max_minutes = 15
-    else:
-        max_minutes = 10
-
+    max_minutes = {'<5':5, '5-10':10, '10-15':15}.get(window, 10)
     elapsed = (time.time() - st.session_state.chat_start) / 60
     if elapsed >= max_minutes:
         st.session_state.chat_ended = True
@@ -86,17 +78,19 @@ st.set_page_config(page_title="ARCpoint Sales Trainer", page_icon="💬")
 st.title("💬 ARCpoint Sales Training Chatbot")
 
 # --- Download Sales Playbook Button ---
+# Ensure the PDF is located next to this script before running
 pdf_path = pathlib.Path(__file__).parent / "TPA Solutions Play Book.pdf"
 if pdf_path.exists():
-    with open(pdf_path, "rb") as f:
-        pdf_bytes = f.read()
-    b64 = base64.b64encode(pdf_bytes).decode()
-    playbook_link = (
-        f'<a href="data:application/pdf;base64,{b64}" download="TPA_Solutions_Play_Book.pdf">'
-        '<button style="background-color:red;color:white;width:100%;padding:8px;border:none;border-radius:4px;">'
-        'Download Sales Playbook</button></a>'
+    pdf_bytes = pdf_path.read_bytes()
+    b64_pdf = base64.b64encode(pdf_bytes).decode()
+    button_html = (
+        f'<a href="data:application/pdf;base64,{b64_pdf}" download="TPA_Solutions_Play_Book.pdf">'
+        '<div style="background-color:red;color:white;text-align:center;padding:8px;margin-bottom:10px;border-radius:4px;">'
+        'Download Sales Playbook</div></a>'
     )
-    st.sidebar.markdown(playbook_link, unsafe_allow_html=True)
+    st.sidebar.markdown(button_html, unsafe_allow_html=True)
+else:
+    st.sidebar.error("Sales playbook PDF not found. Place 'TPA Solutions Play Book.pdf' next to app.py.")
 
 # --- Sidebar controls ---
 scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENARIOS]
@@ -147,8 +141,8 @@ if user_input and not st.session_state.closed:
     st.session_state.messages.append({"role": "user", "content": user_input})
     if check_time_cap(current_persona):
         timeout_msg = (
-            f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. "
-            "Please send me a summary and we can continue later."
+            f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. ""
+            " Please send me a summary and we can continue later."
         )
         st.session_state.messages.append({"role": "assistant", "content": timeout_msg})
     else:
@@ -203,8 +197,8 @@ if st.session_state.score_result:
             name = st.session_state.get("leaderboard_name")
             if name:
                 c.execute(
-                    "INSERT INTO leaderboard (name, score, timestamp) VALUES (?, ?, ?)",
-                    (name, st.session_state.score_value, datetime.datetime.now())
+                    "INSERT INTO leaderboard (name, score, timestamp) VALUES (?, ?, ?)"
+                    ,(name, st.session_state.score_value, datetime.datetime.now())
                 )
                 conn.commit()
                 st.session_state.leaderboard_inserted = True
