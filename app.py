@@ -141,7 +141,7 @@ if user_input and not st.session_state.closed:
     st.session_state.messages.append({"role": "user", "content": user_input})
     if check_time_cap(current_persona):
         timeout_msg = (
-            f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. ""
+            f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. "
             " Please send me a summary and we can continue later."
         )
         st.session_state.messages.append({"role": "assistant", "content": timeout_msg})
