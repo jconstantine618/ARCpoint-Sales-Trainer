@@ -6,39 +6,98 @@
     "category": "B2B Enterprise",
     "decision_makers": [
       {
-        "persona_name": "Sarah",
+        "persona_name": "Casey",
         "persona_role": "Compliance Director",
-        "persona_background": "15 years in manufacturing compliance and safety oversight",
-        "influence": 0.7,
+        "persona_background": "15 years in compliance and safety oversight",
+        "influence": 0.8,
         "mood": {
           "today": "stressed",
-          "receptivity": 0.5
+          "receptivity": 0.74
         },
         "time_availability": {
           "window": "5-10"
         },
         "pain_points": [
-          "last year’s DOT audit failures",
-          "driver turnover costs",
-          "emerging state regulations"
+          "legacy systems",
+          "supply chain disruptions",
+          "manual reporting"
         ],
-        "buying_trigger": "recent OSHA warning letter"
+        "buying_trigger": "management directive"
       },
       {
-        "persona_name": "Tom",
-        "persona_role": "Chief Financial Officer",
-        "persona_background": "20 years in automotive finance and cost controls",
-        "influence": 0.8,
+        "persona_name": "Taylor",
+        "persona_role": "Operations Manager",
+        "persona_background": "12 years in operations and logistics",
+        "influence": 0.79,
         "mood": {
           "today": "neutral",
-          "receptivity": 0.6
+          "receptivity": 0.42
+        },
+        "time_availability": {
+          "window": "5-10"
+        },
+        "pain_points": [
+          "legacy systems",
+          "budget constraints",
+          "data silos"
+        ],
+        "buying_trigger": "recent compliance audit"
+      }
+    ],
+    "difficulty": {
+      "level": "Medium",
+      "challenge_factor": 1.2
+    },
+    "state": "Illinois",
+    "marijuana_legality": "Legal recreational",
+    "random_program": "No",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "2 years ago",
+    "clearinghouse_knowledge": "Well informed",
+    "total_employees": 1127,
+    "dot_employees": 110
+  },
+  {
+    "id": 2,
+    "prospect": "GreenEnergy Solutions",
+    "industry": "Energy",
+    "category": "B2B Enterprise",
+    "decision_makers": [
+      {
+        "persona_name": "Jamie",
+        "persona_role": "Chief Financial Officer",
+        "persona_background": "20 years in finance and cost controls",
+        "influence": 0.88,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.5
         },
         "time_availability": {
           "window": "<5"
         },
         "pain_points": [
-          "high OPEX on external vendors",
-          "pressure to hit quarterly targets"
+          "budget constraints",
+          "emerging regulations",
+          "driver turnover costs"
+        ],
+        "buying_trigger": "new safety incident"
+      },
+      {
+        "persona_name": "Casey",
+        "persona_role": "Safety Officer",
+        "persona_background": "8 years in workplace safety management",
+        "influence": 0.5,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.33
+        },
+        "time_availability": {
+          "window": "10-15"
+        },
+        "pain_points": [
+          "high OPEX",
+          "supply chain disruptions",
+          "data silos"
         ],
         "buying_trigger": "upcoming budget review"
       }
@@ -47,13 +106,477 @@
       "level": "Medium",
       "challenge_factor": 1.2
     },
-    "state": "Michigan",
+    "state": "Georgia",
+    "marijuana_legality": "Prescription only",
+    "random_program": "No",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "2 years ago",
+    "clearinghouse_knowledge": "Uninformed",
+    "total_employees": 2450,
+    "dot_employees": 19
+  },
+  {
+    "id": 3,
+    "prospect": "SafeLogistics",
+    "industry": "Transportation",
+    "category": "B2B Enterprise",
+    "decision_makers": [
+      {
+        "persona_name": "Taylor",
+        "persona_role": "Compliance Director",
+        "persona_background": "15 years in compliance and safety oversight",
+        "influence": 0.52,
+        "mood": {
+          "today": "stressed",
+          "receptivity": 0.39
+        },
+        "time_availability": {
+          "window": "10-15"
+        },
+        "pain_points": [
+          "budget constraints",
+          "DOT audit failures",
+          "high OPEX"
+        ],
+        "buying_trigger": "upcoming budget review"
+      },
+      {
+        "persona_name": "Casey",
+        "persona_role": "Operations Manager",
+        "persona_background": "12 years in operations and logistics",
+        "influence": 0.57,
+        "mood": {
+          "today": "stressed",
+          "receptivity": 0.35
+        },
+        "time_availability": {
+          "window": "10-15"
+        },
+        "pain_points": [
+          "staffing shortages",
+          "data silos",
+          "DOT audit failures"
+        ],
+        "buying_trigger": "recent OSHA warning letter"
+      }
+    ],
+    "difficulty": {
+      "level": "Hard",
+      "challenge_factor": 1.5
+    },
+    "state": "New York",
+    "marijuana_legality": "Legal recreational",
+    "random_program": "Yes",
+    "supervisor_training": "No",
+    "drug_policy_update": "1 year ago",
+    "clearinghouse_knowledge": "Well informed",
+    "total_employees": 2346,
+    "dot_employees": 182
+  },
+  {
+    "id": 4,
+    "prospect": "HealthCare Partners",
+    "industry": "Healthcare",
+    "category": "B2B Enterprise",
+    "decision_makers": [
+      {
+        "persona_name": "Taylor",
+        "persona_role": "Chief Financial Officer",
+        "persona_background": "20 years in finance and cost controls",
+        "influence": 0.84,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.73
+        },
+        "time_availability": {
+          "window": "<5"
+        },
+        "pain_points": [
+          "manual reporting",
+          "staffing shortages",
+          "emerging regulations"
+        ],
+        "buying_trigger": "new safety incident"
+      },
+      {
+        "persona_name": "Taylor",
+        "persona_role": "Operations Manager",
+        "persona_background": "12 years in operations and logistics",
+        "influence": 0.64,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.92
+        },
+        "time_availability": {
+          "window": "5-10"
+        },
+        "pain_points": [
+          "emerging regulations",
+          "high OPEX",
+          "staffing shortages"
+        ],
+        "buying_trigger": "regulatory deadline"
+      }
+    ],
+    "difficulty": {
+      "level": "Medium",
+      "challenge_factor": 1.2
+    },
+    "state": "Georgia",
+    "marijuana_legality": "Illegal",
+    "random_program": "Yes",
+    "supervisor_training": "No",
+    "drug_policy_update": "6 months ago",
+    "clearinghouse_knowledge": "Uninformed",
+    "total_employees": 1184,
+    "dot_employees": 21
+  },
+  {
+    "id": 5,
+    "prospect": "EduTech Innovations",
+    "industry": "Education",
+    "category": "B2B Mid-Market",
+    "decision_makers": [
+      {
+        "persona_name": "Alex",
+        "persona_role": "Chief Financial Officer",
+        "persona_background": "20 years in finance and cost controls",
+        "influence": 0.57,
+        "mood": {
+          "today": "neutral",
+          "receptivity": 0.57
+        },
+        "time_availability": {
+          "window": "5-10"
+        },
+        "pain_points": [
+          "supply chain disruptions",
+          "emerging regulations",
+          "manual reporting"
+        ],
+        "buying_trigger": "management directive"
+      },
+      {
+        "persona_name": "Alex",
+        "persona_role": "Safety Officer",
+        "persona_background": "8 years in workplace safety management",
+        "influence": 0.72,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.77
+        },
+        "time_availability": {
+          "window": "5-10"
+        },
+        "pain_points": [
+          "staffing shortages",
+          "data silos",
+          "budget constraints"
+        ],
+        "buying_trigger": "recent OSHA warning letter"
+      }
+    ],
+    "difficulty": {
+      "level": "Easy",
+      "challenge_factor": 0.8
+    },
+    "state": "California",
+    "marijuana_legality": "Legal medical",
+    "random_program": "Yes",
+    "supervisor_training": "No",
+    "drug_policy_update": "1 year ago",
+    "clearinghouse_knowledge": "Somewhat informed",
+    "total_employees": 3911,
+    "dot_employees": 144
+  },
+  {
+    "id": 6,
+    "prospect": "RetailCorp",
+    "industry": "Retail",
+    "category": "B2B Mid-Market",
+    "decision_makers": [
+      {
+        "persona_name": "Jordan",
+        "persona_role": "Compliance Director",
+        "persona_background": "15 years in compliance and safety oversight",
+        "influence": 0.68,
+        "mood": {
+          "today": "busy",
+          "receptivity": 0.56
+        },
+        "time_availability": {
+          "window": "10-15"
+        },
+        "pain_points": [
+          "staffing shortages",
+          "budget constraints",
+          "manual reporting"
+        ],
+        "buying_trigger": "upcoming budget review"
+      },
+      {
+        "persona_name": "Jamie",
+        "persona_role": "Chief Financial Officer",
+        "persona_background": "20 years in finance and cost controls",
+        "influence": 0.57,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.86
+        },
+        "time_availability": {
+          "window": "5-10"
+        },
+        "pain_points": [
+          "supply chain disruptions",
+          "driver turnover costs",
+          "staffing shortages"
+        ],
+        "buying_trigger": "upcoming budget review"
+      }
+    ],
+    "difficulty": {
+      "level": "Hard",
+      "challenge_factor": 1.5
+    },
+    "state": "Illinois",
+    "marijuana_legality": "Legal recreational",
+    "random_program": "No",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "1 year ago",
+    "clearinghouse_knowledge": "Uninformed",
+    "total_employees": 1575,
+    "dot_employees": 257
+  },
+  {
+    "id": 7,
+    "prospect": "FinService Group",
+    "industry": "Financial Services",
+    "category": "B2B Mid-Market",
+    "decision_makers": [
+      {
+        "persona_name": "Casey",
+        "persona_role": "Safety Officer",
+        "persona_background": "8 years in workplace safety management",
+        "influence": 0.51,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.61
+        },
+        "time_availability": {
+          "window": "<5"
+        },
+        "pain_points": [
+          "manual reporting",
+          "high OPEX",
+          "driver turnover costs"
+        ],
+        "buying_trigger": "recent compliance audit"
+      },
+      {
+        "persona_name": "Taylor",
+        "persona_role": "Operations Manager",
+        "persona_background": "12 years in operations and logistics",
+        "influence": 0.88,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.58
+        },
+        "time_availability": {
+          "window": "5-10"
+        },
+        "pain_points": [
+          "manual reporting",
+          "supply chain disruptions",
+          "high OPEX"
+        ],
+        "buying_trigger": "upcoming budget review"
+      }
+    ],
+    "difficulty": {
+      "level": "Medium",
+      "challenge_factor": 1.2
+    },
+    "state": "Illinois",
+    "marijuana_legality": "Illegal",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "recently",
+    "clearinghouse_knowledge": "Uninformed",
+    "total_employees": 126,
+    "dot_employees": 11
+  },
+  {
+    "id": 8,
+    "prospect": "BioPharma Works",
+    "industry": "Biotechnology",
+    "category": "B2B Mid-Market",
+    "decision_makers": [
+      {
+        "persona_name": "Casey",
+        "persona_role": "Compliance Director",
+        "persona_background": "15 years in compliance and safety oversight",
+        "influence": 0.9,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.55
+        },
+        "time_availability": {
+          "window": "10-15"
+        },
+        "pain_points": [
+          "driver turnover costs",
+          "manual reporting",
+          "data silos"
+        ],
+        "buying_trigger": "management directive"
+      },
+      {
+        "persona_name": "Jordan",
+        "persona_role": "Safety Officer",
+        "persona_background": "8 years in workplace safety management",
+        "influence": 0.67,
+        "mood": {
+          "today": "neutral",
+          "receptivity": 0.79
+        },
+        "time_availability": {
+          "window": "<5"
+        },
+        "pain_points": [
+          "manual reporting",
+          "driver turnover costs",
+          "data silos"
+        ],
+        "buying_trigger": "upcoming budget review"
+      }
+    ],
+    "difficulty": {
+      "level": "Hard",
+      "challenge_factor": 1.5
+    },
+    "state": "Texas",
+    "marijuana_legality": "Legal recreational",
+    "random_program": "No",
+    "supervisor_training": "No",
+    "drug_policy_update": "6 months ago",
+    "clearinghouse_knowledge": "Well informed",
+    "total_employees": 1332,
+    "dot_employees": 101
+  },
+  {
+    "id": 9,
+    "prospect": "FoodTrans Logistics",
+    "industry": "Logistics",
+    "category": "B2B Enterprise",
+    "decision_makers": [
+      {
+        "persona_name": "Taylor",
+        "persona_role": "Compliance Director",
+        "persona_background": "15 years in compliance and safety oversight",
+        "influence": 0.55,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.83
+        },
+        "time_availability": {
+          "window": "10-15"
+        },
+        "pain_points": [
+          "driver turnover costs",
+          "manual reporting",
+          "staffing shortages"
+        ],
+        "buying_trigger": "management directive"
+      },
+      {
+        "persona_name": "Casey",
+        "persona_role": "Chief Financial Officer",
+        "persona_background": "20 years in finance and cost controls",
+        "influence": 0.89,
+        "mood": {
+          "today": "optimistic",
+          "receptivity": 0.79
+        },
+        "time_availability": {
+          "window": "10-15"
+        },
+        "pain_points": [
+          "manual reporting",
+          "staffing shortages",
+          "data silos"
+        ],
+        "buying_trigger": "upcoming budget review"
+      }
+    ],
+    "difficulty": {
+      "level": "Easy",
+      "challenge_factor": 0.8
+    },
+    "state": "Ohio",
     "marijuana_legality": "Prescription only",
     "random_program": "Yes",
     "supervisor_training": "No",
-    "drug_policy_update": "About a year ago",
+    "drug_policy_update": "6 months ago",
     "clearinghouse_knowledge": "Somewhat informed",
-    "total_employees": 1200,
-    "dot_employees": 150
+    "total_employees": 4449,
+    "dot_employees": 523
+  },
+  {
+    "id": 10,
+    "prospect": "CleanWater Utilities",
+    "industry": "Utilities",
+    "category": "B2B Enterprise",
+    "decision_makers": [
+      {
+        "persona_name": "Casey",
+        "persona_role": "Operations Manager",
+        "persona_background": "12 years in operations and logistics",
+        "influence": 0.53,
+        "mood": {
+          "today": "stressed",
+          "receptivity": 0.78
+        },
+        "time_availability": {
+          "window": "<5"
+        },
+        "pain_points": [
+          "DOT audit failures",
+          "supply chain disruptions",
+          "budget constraints"
+        ],
+        "buying_trigger": "recent OSHA warning letter"
+      },
+      {
+        "persona_name": "Casey",
+        "persona_role": "Chief Financial Officer",
+        "persona_background": "20 years in finance and cost controls",
+        "influence": 0.89,
+        "mood": {
+          "today": "stressed",
+          "receptivity": 0.74
+        },
+        "time_availability": {
+          "window": "<5"
+        },
+        "pain_points": [
+          "data silos",
+          "emerging regulations",
+          "high OPEX"
+        ],
+        "buying_trigger": "upcoming budget review"
+      }
+    ],
+    "difficulty": {
+      "level": "Medium",
+      "challenge_factor": 1.2
+    },
+    "state": "Georgia",
+    "marijuana_legality": "Prescription only",
+    "random_program": "Yes",
+    "supervisor_training": "Yes",
+    "drug_policy_update": "6 months ago",
+    "clearinghouse_knowledge": "Somewhat informed",
+    "total_employees": 3481,
+    "dot_employees": 300
   }
 ]
