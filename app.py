@@ -83,7 +83,7 @@ with open(DATA_PATH) as f:
 
 # --- UI setup ---
 st.set_page_config(page_title="ARCpoint Sales Trainer", page_icon="💬")
-st.title("💬 ARCpoint Sales Training Chatbot")
+st.title("💬 TPA Sales Training Chatbot")
 
 # --- Sidebar controls ---
 scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENARIOS]
@@ -204,7 +204,7 @@ if st.session_state.score_result:
                 st.sidebar.success("Your score has been recorded!")
 
     # Display top 10 leaderboard
-    st.sidebar.write("### Top 10 All-Time Scores")
+    st.sidebar.write("### Top 10 Recent Scores")
     rows = c.execute(
         "SELECT name, score FROM leaderboard ORDER BY score DESC, timestamp ASC LIMIT 10"
     ).fetchall()
