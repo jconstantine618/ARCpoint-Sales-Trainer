@@ -35,8 +35,8 @@ def init_timer():
         st.session_state.chat_ended = False
 
 
-def check_time_cap(current_persona):
-    window = current_persona['time_availability']['window']
+def check_time_cap(persona):
+    window = persona['time_availability']['window']
     if window == '<5':
         max_minutes = 5
     elif window == '5-10':
@@ -73,26 +73,28 @@ scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENA
 choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
 voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode")
 
+# Select scenario and primary persona
 current = SCENARIOS[scenario_names.index(choice)]
+current_persona = current['decision_makers'][0]
 
 # --- Show persona details ---
 st.markdown(f"""
-**Persona:** {current['persona_name']} ({current['persona_role']})  
-**Background:** {current['persona_background']}  
+**Persona:** {current_persona['persona_name']} ({current_persona['persona_role']})  
+**Background:** {current_persona['persona_background']}  
 **Company:** {current['prospect']}  
 **Difficulty:** {current['difficulty']['level']}  
-**State:** {current['state']} (Marijuana: {current['marijuana_legality']})
+**Time Available:** {current_persona['time_availability']['window']} minutes
 """
 )
 
 # --- System prompt ---
 system_prompt = f"""
-You are role‑playing **{current['persona_name']}**, the **{current['persona_role']}** at **{current['prospect']}**.  
+You are role‑playing **{current_persona['persona_name']}**, the **{current_persona['persona_role']}** at **{current['prospect']}**.  
 • You have the background, pressures and goals of this real buyer: their industry regulations, decision process, and pain points per the playbook.  
 • Speak and act **only** as this persona would, with realistic objections and internal decision considerations.  
 • You know ARCpoint Labs offerings, but you’re skeptical until the rep uncovers **your** needs.  
 • Follow strong sales principles: gradual disclosure, empathy, teaching & tailoring.  
-• Respect your time: you have {current['time_availability']['window']} minutes in this meeting.  
+• Respect your time: you have {current_persona['time_availability']['window']} minutes in this meeting.  
 Stay in character at all times.
 """
 
@@ -114,9 +116,9 @@ if user_input and not st.session_state.closed:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     # Check time cap before AI call
-    if check_time_cap(current):
+    if check_time_cap(current_persona):
         timeout_msg = (
-            f"**{current['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. "
+            f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. "
             "Please send me a summary and we can continue later."
         )
         st.session_state.messages.append({"role": "assistant", "content": timeout_msg})
