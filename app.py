@@ -84,8 +84,9 @@ if pdf_path.exists():
     pdf_bytes = pdf_path.read_bytes()
     b64_pdf = base64.b64encode(pdf_bytes).decode()
     button_html = (
-        f'<a href="data:application/pdf;base64,{b64_pdf}" download="TPA_Solutions_Play_Book.pdf">'
-        '<div style="background-color:red;color:white;text-align:center;padding:8px;margin-bottom:10px;border-radius:4px;">'
+        f'<a style="display:block;text-decoration:none;color:white;" '
+        f'href="data:application/pdf;base64,{b64_pdf}" download="TPA_Solutions_Play_Book.pdf">'
+        '<div style="background-color:red;text-align:center;padding:8px;margin-bottom:10px;border-radius:4px;">'
         'Download Sales Playbook</div></a>'
     )
     st.sidebar.markdown(button_html, unsafe_allow_html=True)
