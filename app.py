@@ -25,26 +25,41 @@ c.execute(
 )
 conn.commit()
 
-# --- Scoring function — improved close detection ---
+# --- Sales Pillars for Scoring ---
+PILLARS = {
+    "rapport": ["i understand", "appreciate", "thank you for sharing"],
+    "pain": ["what challenges", "issue", "concern", "pain point"],
+    "upfront_contract": ["at the end", "agenda", "scope of today", "contract"],
+    "teach_tailor": ["did you know", "we've seen", "benchmark", "tailor"],
+    "close": ["does that make sense", "shall we get started", "ready to proceed", "move forward"]
+}
+
+# --- Scoring function — pillar-based feedback ---
 def calculate_score(messages):
-    total_points = 0
-    principle_points = min(len([m for m in messages if m["role"] == "user"]), 30) * 3
-    total_points += min(principle_points, 90)
+    # Count user-turn matches per pillar
+    counts = {p: 0 for p in PILLARS}
+    for msg in messages:
+        if msg["role"] != "user":
+            continue
+        text = msg["content"].lower()
+        for pillar, keywords in PILLARS.items():
+            if any(k in text for k in keywords):
+                counts[pillar] += 1
 
-    success_phrases = [
-        "yes", "let's move forward", "ready to proceed",
-        "let's get started", "i'm excited to begin", "move forward with this partnership"
-    ]
-    last_responses = " ".join(m["content"].lower() for m in messages[-3:])
-    sale_closed = any(phrase in last_responses for phrase in success_phrases)
+    # Compute sub-scores (max 20 each)
+    sub_scores = {p: min(counts[p], 3) * (20/3) for p in PILLARS}
+    total_score = int(sum(sub_scores.values()))
 
-    if sale_closed:
-        total_points += 30
+    # Build detailed feedback
+    feedback_lines = []
+    for p, pts in sub_scores.items():
+        if pts < 10:  # threshold for adequate coverage
+            feedback_lines.append(f"⚠️ Low on {p.replace('_', ' ').title()}: scored {int(pts)}/20. Try more {p.replace('_', ' ')} questions.")
+        else:
+            feedback_lines.append(f"✅ Good job on {p.replace('_', ' ').title()}: scored {int(pts)}/20.")
 
-    summary = "✅ You hit several key principles.\n" if total_points >= 70 else "⚠️ You missed important objections or pain points.\n"
-    summary += f"Principle points: {principle_points}/90\n"
-    summary += f"Sale close bonus: {'30' if sale_closed else '0'}/30\n"
-    return total_points, summary
+    feedback = "\n".join(feedback_lines)
+    return total_score, feedback
 
 # --- Timer functions ---
 def init_timer():
@@ -54,7 +69,7 @@ def init_timer():
 
 def check_time_cap(persona):
     window = persona['time_availability']['window']
-    max_minutes = {'<5':5, '5-10':10, '10-15':15}.get(window, 10)
+    max_minutes = {'<5': 5, '5-10': 10, '10-15': 15}.get(window, 10)
     elapsed = (time.time() - st.session_state.chat_start) / 60
     if elapsed >= max_minutes:
         st.session_state.chat_ended = True
@@ -78,11 +93,9 @@ st.set_page_config(page_title="ARCpoint Sales Trainer", page_icon="💬")
 st.title("💬 ARCpoint Sales Training Chatbot")
 
 # --- Download Sales Playbook Button ---
-# Ensure the PDF is located next to this script before running
 pdf_path = pathlib.Path(__file__).parent / "TPA Solutions Play Book.pdf"
 if pdf_path.exists():
-    pdf_bytes = pdf_path.read_bytes()
-    b64_pdf = base64.b64encode(pdf_bytes).decode()
+    b64_pdf = base64.b64encode(pdf_path.read_bytes()).decode()
     button_html = (
         f'<a style="display:block;text-decoration:none;color:white;" '
         f'href="data:application/pdf;base64,{b64_pdf}" download="TPA_Solutions_Play_Book.pdf">'
@@ -98,7 +111,7 @@ scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENA
 choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
 voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode")
 
-# Select scenario and primary persona
+# --- Select scenario and primary persona ---
 current = SCENARIOS[scenario_names.index(choice)]
 current_persona = current['decision_makers'][0]
 
@@ -141,10 +154,7 @@ user_input = st.chat_input("Your message to the prospect")
 if user_input and not st.session_state.closed:
     st.session_state.messages.append({"role": "user", "content": user_input})
     if check_time_cap(current_persona):
-        timeout_msg = (
-            f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. "
-            " Please send me a summary and we can continue later."
-        )
+        timeout_msg = f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. Please send me a summary and we can continue later."
         st.session_state.messages.append({"role": "assistant", "content": timeout_msg})
     else:
         messages = [{"role": "system", "content": system_prompt}] + st.session_state.messages[1:]
@@ -162,10 +172,9 @@ for msg in st.session_state.messages[1:]:
     else:
         st.chat_message("assistant").write(msg["content"])
         if voice_mode:
-            tts = gTTS(msg["content"] )
+            tts = gTTS(msg["content"])
             tts.save("reply.mp3")
-            audio_file = open("reply.mp3", "rb")
-            st.audio(audio_file.read(), format="audio/mp3")
+            st.audio(open("reply.mp3","rb").read(), format="audio/mp3")
 
 # --- Sidebar: Reset & End Chat ---
 if st.sidebar.button("🔄 Reset Chat"):
@@ -178,14 +187,15 @@ if st.sidebar.button("🔄 Reset Chat"):
     init_timer()
     st.rerun()
 
+# --- End Chat & Score ---
 end_label = ("⏳ Generating score..." if st.session_state.loading_score else "🔚 End Chat")
 if st.sidebar.button(end_label):
     if not st.session_state.closed and not st.session_state.loading_score:
         st.session_state.loading_score = True
-        score, summary = calculate_score(st.session_state.messages)
+        score, feedback = calculate_score(st.session_state.messages)
         st.session_state.closed = True
         st.session_state.loading_score = False
-        st.session_state.score_result = f"🏆 **Final Score: {score}/100**\n\n{summary}"
+        st.session_state.score_result = f"🏆 **Total Score: {score}/100**\n\n{feedback}"
         st.session_state.score_value = score
 
 # --- Show score and leaderboard ---
