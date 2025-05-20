@@ -13,63 +13,55 @@ from gtts import gTTS
 DB_PATH = pathlib.Path(__file__).parent / "leaderboard.db"
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 c = conn.cursor()
-c.execute(
-    """
-    CREATE TABLE IF NOT EXISTS leaderboard (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        score INTEGER,
-        timestamp DATETIME
-    )
-    """
+c.execute("""
+CREATE TABLE IF NOT EXISTS leaderboard (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    score INTEGER,
+    timestamp DATETIME
 )
+""")
 conn.commit()
 
-# --- Sales Pillars for Scoring ---
+# --- Pillar-Based Scoring Function ---
 PILLARS = {
-    "rapport": ["i understand", "appreciate", "thank you for sharing"],
-    "pain": ["what challenges", "issue", "concern", "pain point"],
-    "upfront_contract": ["at the end", "agenda", "scope of today", "contract"],
-    "teach_tailor": ["did you know", "we've seen", "benchmark", "tailor"],
-    "close": ["does that make sense", "shall we get started", "ready to proceed", "move forward"]
+    "Rapport": ["i understand", "appreciate", "thank you", "great question", "how are you"],
+    "Pain": ["what challenges", "issue", "concern", "pain point", "problem"],
+    "UpFront": ["agenda", "scope", "end of call", "contract"],
+    "TeachTailor": ["did you know", "we've seen", "in our experience", "often we find"],
+    "Close": ["does that make sense", "ready to proceed", "shall we", "let's move forward"]
 }
 
-# --- Scoring function — pillar-based feedback ---
 def calculate_score(messages):
-    # Count user-turn matches per pillar
     counts = {p: 0 for p in PILLARS}
     for msg in messages:
         if msg["role"] != "user":
             continue
         text = msg["content"].lower()
-        for pillar, keywords in PILLARS.items():
-            if any(k in text for k in keywords):
+        for pillar, kws in PILLARS.items():
+            if any(k in text for k in kws):
                 counts[pillar] += 1
-
-    # Compute sub-scores (max 20 each)
+    # Sub-scores capped at 3 occurrences => 20 points each
     sub_scores = {p: min(counts[p], 3) * (20/3) for p in PILLARS}
-    total_score = int(sum(sub_scores.values()))
-
-    # Build detailed feedback
+    total = int(sum(sub_scores.values()))
+    # Build feedback
     feedback_lines = []
-    for p, pts in sub_scores.items():
-        if pts < 10:  # threshold for adequate coverage
-            feedback_lines.append(f"⚠️ Low on {p.replace('_', ' ').title()}: scored {int(pts)}/20. Try more {p.replace('_', ' ')} questions.")
+    for pillar, score in sub_scores.items():
+        if score < 12:  # less than 60%
+            feedback_lines.append(f"⚠️ You scored {int(score)}/20 on {pillar}. Try adding more {pillar.lower()} questions.")
         else:
-            feedback_lines.append(f"✅ Good job on {p.replace('_', ' ').title()}: scored {int(pts)}/20.")
+            feedback_lines.append(f"✅ Good job on {pillar} ({int(score)}/20).")
+    return total, "\n".join(feedback_lines)
 
-    feedback = "\n".join(feedback_lines)
-    return total_score, feedback
-
-# --- Timer functions ---
+# --- Timer Functions ---
 def init_timer():
     if 'chat_start' not in st.session_state:
         st.session_state.chat_start = time.time()
         st.session_state.chat_ended = False
 
-def check_time_cap(persona):
-    window = persona['time_availability']['window']
-    max_minutes = {'<5': 5, '5-10': 10, '10-15': 15}.get(window, 10)
+def check_time_cap(difficulty_level):
+    caps = {"Easy": 10, "Medium": 15, "Hard": 20}
+    max_minutes = caps.get(difficulty_level, 10)
     elapsed = (time.time() - st.session_state.chat_start) / 60
     if elapsed >= max_minutes:
         st.session_state.chat_ended = True
@@ -95,128 +87,153 @@ st.title("💬 ARCpoint Sales Training Chatbot")
 # --- Download Sales Playbook Button ---
 pdf_path = pathlib.Path(__file__).parent / "TPA Solutions Play Book.pdf"
 if pdf_path.exists():
-    b64_pdf = base64.b64encode(pdf_path.read_bytes()).decode()
-    button_html = (
-        f'<a style="display:block;text-decoration:none;color:white;" '
-        f'href="data:application/pdf;base64,{b64_pdf}" download="TPA_Solutions_Play_Book.pdf">'
-        '<div style="background-color:red;text-align:center;padding:8px;margin-bottom:10px;border-radius:4px;">'
-        'Download Sales Playbook</div></a>'
+    with open(pdf_path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode()
+    playbook_link = (
+        f'<a href="data:application/pdf;base64,{b64}" download="TPA_Solutions_Play_Book.pdf">'
+        '<button style="background-color:red;color:white;width:100%;padding:8px;border:none;border-radius:4px;">'
+        'Download Sales Playbook</button></a>'
     )
-    st.sidebar.markdown(button_html, unsafe_allow_html=True)
-else:
-    st.sidebar.error("Sales playbook PDF not found. Place 'TPA Solutions Play Book.pdf' next to app.py.")
+    st.sidebar.markdown(playbook_link, unsafe_allow_html=True)
 
-# --- Sidebar controls ---
+# --- Sidebar: Scenario Selection ---
 scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENARIOS]
 choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
-voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode")
-
-# --- Select scenario and primary persona ---
 current = SCENARIOS[scenario_names.index(choice)]
-current_persona = current['decision_makers'][0]
 
-# --- Show persona details ---
+# --- Reset session when scenario changes ---
+if "last_scenario" not in st.session_state or choice != st.session_state.last_scenario:
+    st.session_state.last_scenario = choice
+    st.session_state.current_persona_idx = 0
+    st.session_state.messages = []
+    st.session_state.closed = False
+    st.session_state.loading_score = False
+    st.session_state.score_result = ""
+    st.session_state.score_value = None
+    st.session_state.leaderboard_inserted = False
+
+# --- Persona Selection ---
+persona_list = current['decision_makers']
+persona_options = [
+    f"{i+1}. {p['persona_name']} ({p['persona_role']})"
+    for i, p in enumerate(persona_list)
+]
+persona_idx = st.sidebar.selectbox("Which decision-maker?", persona_options, index=st.session_state.current_persona_idx)
+st.session_state.current_persona_idx = persona_idx
+current_persona = persona_list[persona_idx]
+
+# --- Persona Awareness Note ---
+other_names = [p['persona_name'] for p in persona_list if p != current_persona]
+other_note = ""
+if other_names:
+    other_note = f"You know {', '.join(other_names)} is another stakeholder and may need to join."
+
+# --- Build System Prompt ---
+time_limit = {"Easy":10, "Medium":15, "Hard":20}[current['difficulty']['level']]
+system_prompt = f"""
+You are **{current_persona['persona_name']}**, the **{current_persona['persona_role']}** at **{current['prospect']}**.
+• Background: {current_persona['persona_background']}; pains: {', '.join(current_persona['pain_points'])}.
+• Difficulty level: {current['difficulty']['level']} → {time_limit} minutes to complete this call.
+• {other_note}
+• Speak only as this persona, with realistic objections and timing.
+Stay in character.
+"""
+
+# --- Initialize timer and messages ---
+init_timer()
+if not st.session_state.messages:
+    st.session_state.messages = [{"role":"system","content":system_prompt}]
+
+# --- Display Persona Info & Chat ---
 st.markdown(f"""
 **Persona:** {current_persona['persona_name']} ({current_persona['persona_role']})  
 **Background:** {current_persona['persona_background']}  
 **Company:** {current['prospect']}  
-**Difficulty:** {current['difficulty']['level']}  
-**Time Available:** {current_persona['time_availability']['window']} minutes
-"""
-)
+**Time Available:** {time_limit} min  
+""")
 
-# --- System prompt ---
-system_prompt = f"""
-You are role‑playing **{current_persona['persona_name']}**, the **{current_persona['persona_role']}** at **{current['prospect']}**.  
-• You have the background, pressures and goals of this real buyer: their industry regulations, decision process, and pain points per the playbook.  
-• Speak and act **only** as this persona would, with realistic objections and internal decision considerations.  
-• You know ARCpoint Labs offerings, but you’re skeptical until the rep uncovers **your** needs.  
-• Follow strong sales principles: gradual disclosure, empathy, teaching & tailoring.  
-• Respect your time: you have {current_persona['time_availability']['window']} minutes in this meeting.  
-Stay in character at all times.
-"""
-
-# --- Reset on scenario change and initialize session ---
-if "last_scenario" not in st.session_state or choice != st.session_state.last_scenario:
-    st.session_state.last_scenario = choice
-    st.session_state.messages = [{"role": "system", "content": system_prompt}]
-    st.session_state.closed = False
-    st.session_state.loading_score = False
-    st.session_state.score_result = ""
-    st.session_state.leaderboard_inserted = False
-    st.session_state.score_value = None
-
-# --- Ensure timer starts ---
-init_timer()
-
-# --- Chat input and processing ---
 user_input = st.chat_input("Your message to the prospect")
 if user_input and not st.session_state.closed:
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    if check_time_cap(current_persona):
-        timeout_msg = f"**{current_persona['persona_name']}**: I'm sorry, but I need to jump to another meeting right now. Please send me a summary and we can continue later."
-        st.session_state.messages.append({"role": "assistant", "content": timeout_msg})
+    # If rep mentions another persona, switch
+    for idx, p in enumerate(persona_list):
+        if idx != persona_idx and p['persona_name'].lower() in user_input.lower():
+            st.session_state.current_persona_idx = idx
+            current_persona = persona_list[idx]
+            switch_msg = f"**{current_persona['persona_name']} ({current_persona['persona_role']}) has joined the meeting.**"
+            st.session_state.messages.append({"role":"assistant","content":switch_msg})
+            # rebuild prompt
+            system_prompt = system_prompt  # can regenerate if needed
+            break
     else:
-        messages = [{"role": "system", "content": system_prompt}] + st.session_state.messages[1:]
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        reply = response.choices[0].message.content.strip()
-        st.session_state.messages.append({"role": "assistant", "content": reply})
+        # Regular chat turn
+        st.session_state.messages.append({"role":"user","content":user_input})
+        if check_time_cap(current['difficulty']['level']):
+            timeout = f"**{current_persona['persona_name']}**: Sorry, I need to join another meeting now. Let's pick this up later."
+            st.session_state.messages.append({"role":"assistant","content":timeout})
+        else:
+            msgs = st.session_state.messages.copy()
+            msgs[0] = {"role":"system","content":system_prompt}
+            response = client.chat.completions.create(model="gpt-3.5-turbo", messages=msgs)
+            reply = response.choices[0].message.content.strip()
+            st.session_state.messages.append({"role":"assistant","content":reply})
 
-# --- Display chat ---
+# render chat
 for msg in st.session_state.messages[1:]:
-    if msg["role"] == "user":
-        st.chat_message("user").write(msg["content"])
-    else:
-        st.chat_message("assistant").write(msg["content"])
-        if voice_mode:
-            tts = gTTS(msg["content"])
-            tts.save("reply.mp3")
-            st.audio(open("reply.mp3","rb").read(), format="audio/mp3")
+    st.chat_message(msg["role"]).write(msg["content"])
+    if msg["role"]=="assistant" and st.session_state.get("voice_mode"):
+        tts = gTTS(msg["content"])
+        tts.save("reply.mp3")
+        st.audio(open("reply.mp3","rb").read(), format="audio/mp3")
 
-# --- Sidebar: Reset & End Chat ---
+# --- Sidebar Controls ---
+voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode", key="voice_mode")
 if st.sidebar.button("🔄 Reset Chat"):
-    st.session_state.messages = [{"role": "system", "content": system_prompt}]
+    st.session_state.last_scenario = choice
+    st.session_state.current_persona_idx = 0
+    st.session_state.messages = [{"role":"system","content":system_prompt}]
     st.session_state.closed = False
-    st.session_state.loading_score = False
-    st.session_state.score_result = ""
-    st.session_state.leaderboard_inserted = False
-    st.session_state.score_value = None
     init_timer()
     st.rerun()
 
-# --- End Chat & Score ---
-end_label = ("⏳ Generating score..." if st.session_state.loading_score else "🔚 End Chat")
+end_label = "⏳ Generating score..." if st.session_state.loading_score else "🔚 End Chat"
 if st.sidebar.button(end_label):
     if not st.session_state.closed and not st.session_state.loading_score:
         st.session_state.loading_score = True
-        score, feedback = calculate_score(st.session_state.messages)
+        total_score, feedback = calculate_score(st.session_state.messages)
         st.session_state.closed = True
         st.session_state.loading_score = False
-        st.session_state.score_result = f"🏆 **Total Score: {score}/100**\n\n{feedback}"
-        st.session_state.score_value = score
+        st.session_state.score_result = f"🏆 **Total Score: {total_score}/100**\n\n{feedback}"
+        st.session_state.score_value = total_score
 
-# --- Show score and leaderboard ---
+        # Generate "What Happened Next"
+        outcome_prompt = [
+            {"role":"system","content":"You are a sales coach."},
+            {"role":"user","content":(
+                "Based on this chat and a final score of "
+                f"{total_score}/100, write a 3–4 sentence 'What Happened Next' scenario "
+                "describing how the prospect followed up or moved on."
+            )}
+        ]
+        outcome = client.chat.completions.create(model="gpt-3.5-turbo", messages=outcome_prompt)
+        st.sidebar.markdown("### What Happened Next")
+        st.sidebar.write(outcome.choices[0].message.content.strip())
+
+# show score & leaderboard
 if st.session_state.score_result:
     st.sidebar.markdown(st.session_state.score_result)
-    if st.session_state.closed and not st.session_state.leaderboard_inserted:
-        st.sidebar.write("### Save your result to the leaderboard")
+    if not st.session_state.leaderboard_inserted:
         st.sidebar.text_input("Your name:", key="leaderboard_name")
         if st.sidebar.button("🏅 Save my score"):
             name = st.session_state.get("leaderboard_name")
             if name:
                 c.execute(
-                    "INSERT INTO leaderboard (name, score, timestamp) VALUES (?, ?, ?)"
-                    ,(name, st.session_state.score_value, datetime.datetime.now())
+                    "INSERT INTO leaderboard (name, score, timestamp) VALUES (?, ?, ?)",
+                    (name, st.session_state.score_value, datetime.datetime.now())
                 )
                 conn.commit()
                 st.session_state.leaderboard_inserted = True
                 st.sidebar.success("Your score has been recorded!")
     st.sidebar.write("### Top 10 All-Time Scores")
-    rows = c.execute(
-        "SELECT name, score FROM leaderboard ORDER BY score DESC, timestamp ASC LIMIT 10"
-    ).fetchall()
+    rows = c.execute("SELECT name, score FROM leaderboard ORDER BY score DESC, timestamp ASC LIMIT 10").fetchall()
     for i, (n, s) in enumerate(rows, start=1):
         st.sidebar.write(f"{i}. {n} — {s}")
