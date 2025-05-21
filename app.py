@@ -112,13 +112,14 @@ if "last_scenario" not in st.session_state or choice != st.session_state.last_sc
     st.session_state.score_value = None
     st.session_state.leaderboard_inserted = False
 
-# --- Persona Selection ---
+# --- Persona Selection (Option B) ---
 persona_list = current['decision_makers']
-persona_options = [
-    f"{i+1}. {p['persona_name']} ({p['persona_role']})"
-    for i, p in enumerate(persona_list)
-]
-persona_idx = st.sidebar.selectbox("Which decision-maker?", persona_options, index=st.session_state.current_persona_idx)
+persona_idx = st.sidebar.selectbox(
+    "Which decision-maker?",
+    options=list(range(len(persona_list))),
+    format_func=lambda i: f"{persona_list[i]['persona_name']} ({persona_list[i]['persona_role']})",
+    index=st.session_state.current_persona_idx
+)
 st.session_state.current_persona_idx = persona_idx
 current_persona = persona_list[persona_idx]
 
@@ -154,15 +155,13 @@ st.markdown(f"""
 
 user_input = st.chat_input("Your message to the prospect")
 if user_input and not st.session_state.closed:
-    # If rep mentions another persona, switch
+    # If rep mentions another persona name, switch
     for idx, p in enumerate(persona_list):
         if idx != persona_idx and p['persona_name'].lower() in user_input.lower():
             st.session_state.current_persona_idx = idx
             current_persona = persona_list[idx]
             switch_msg = f"**{current_persona['persona_name']} ({current_persona['persona_role']}) has joined the meeting.**"
             st.session_state.messages.append({"role":"assistant","content":switch_msg})
-            # rebuild prompt
-            system_prompt = system_prompt  # can regenerate if needed
             break
     else:
         # Regular chat turn
@@ -177,7 +176,7 @@ if user_input and not st.session_state.closed:
             reply = response.choices[0].message.content.strip()
             st.session_state.messages.append({"role":"assistant","content":reply})
 
-# render chat
+# Render chat
 for msg in st.session_state.messages[1:]:
     st.chat_message(msg["role"]).write(msg["content"])
     if msg["role"]=="assistant" and st.session_state.get("voice_mode"):
@@ -185,10 +184,10 @@ for msg in st.session_state.messages[1:]:
         tts.save("reply.mp3")
         st.audio(open("reply.mp3","rb").read(), format="audio/mp3")
 
-# --- Sidebar Controls ---
+# --- Sidebar Controls: Voice, Reset, End Chat ---
 voice_mode = st.sidebar.checkbox("🎙️ Enable Voice Mode", key="voice_mode")
+
 if st.sidebar.button("🔄 Reset Chat"):
-    st.session_state.last_scenario = choice
     st.session_state.current_persona_idx = 0
     st.session_state.messages = [{"role":"system","content":system_prompt}]
     st.session_state.closed = False
@@ -218,8 +217,8 @@ if st.sidebar.button(end_label):
         st.sidebar.markdown("### What Happened Next")
         st.sidebar.write(outcome.choices[0].message.content.strip())
 
-# show score & leaderboard
-if st.session_state.score_result:
+# Show score & leaderboard
+if st.session_state.get("score_result"):
     st.sidebar.markdown(st.session_state.score_result)
     if not st.session_state.leaderboard_inserted:
         st.sidebar.text_input("Your name:", key="leaderboard_name")
@@ -234,6 +233,8 @@ if st.session_state.score_result:
                 st.session_state.leaderboard_inserted = True
                 st.sidebar.success("Your score has been recorded!")
     st.sidebar.write("### Top 10 All-Time Scores")
-    rows = c.execute("SELECT name, score FROM leaderboard ORDER BY score DESC, timestamp ASC LIMIT 10").fetchall()
+    rows = c.execute(
+        "SELECT name, score FROM leaderboard ORDER BY score DESC, timestamp ASC LIMIT 10"
+    ).fetchall()
     for i, (n, s) in enumerate(rows, start=1):
         st.sidebar.write(f"{i}. {n} — {s}")
