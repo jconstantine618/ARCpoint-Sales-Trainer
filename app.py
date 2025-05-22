@@ -54,40 +54,35 @@ def calc_score(msgs):
     counts = {p: 0 for p in PILLARS}
     convo_texts = []
     for m in msgs:
-        if m["role"] != "user":
-            continue
+        if m["role"] != "user": continue
         txt = m["content"].lower()
         convo_texts.append(txt)
         for p, kws in PILLARS.items():
             if any(k in txt for k in kws):
                 counts[p] += 1
 
-    # cap at 3 occurrences → 20 points each
     sub_scores = {p: min(v, 3) * (20/3) for p, v in counts.items()}
     total = int(sum(sub_scores.values()))
 
-    # brief feedback
     brief_fb = [
-        f"{'✅' if sub_scores[p] >= 10 else '⚠️'} {p.title()} {int(sub_scores[p])}/20"
+        f"{'✅' if sub_scores[p]>=10 else '⚠️'} {p.title()} {int(sub_scores[p])}/20"
         for p in PILLARS
     ]
 
-    # detailed feedback
     details = []
     for p in PILLARS:
         pts = sub_scores[p]
-        if pts >= 15:
-            details.append(f"**{p.title()}**: {COMPLIMENTS[p]}")
-        else:
-            details.append(f"**{p.title()}**: {FEEDBACK_HINTS[p]}")
+        details.append(
+            f"**{p.title()}**: "
+            + (COMPLIMENTS[p] if pts>=15 else FEEDBACK_HINTS[p])
+        )
 
-    # objections coverage
     convo = " ".join(convo_texts)
     found = [o for o in DEAL_OBJECTIONS if o in convo]
     missed = [o for o in DEAL_OBJECTIONS if o not in convo]
     obj_summary = (
-        f"**Objections uncovered:** {', '.join(found) if found else 'None'}\n"
-        f"**Objections missed:** {', '.join(missed) if missed else 'None'}"
+        f"**Objections uncovered:** {', '.join(found) or 'None'}\n"
+        f"**Objections missed:** {', '.join(missed) or 'None'}"
     )
 
     detailed_fb = "\n\n".join(details + [obj_summary])
@@ -102,27 +97,13 @@ def generate_follow_up(sub_scores, scenario, persona):
     pain_pts = sub_scores.get("pain", 0)
 
     if total >= 75 and close_pts >= 10:
-        return (
-            f"You and {name} agreed to review a proposal together. "
-            f"{name} was enthusiastic and {comp} is now a client."
-        )
+        return f"You and {name} agreed to review a proposal together. {comp} is now a client."
     elif total >= 50 and close_pts >= 5:
-        return (
-            f"{name} requested detailed pricing and scheduled a follow-up next week. "
-            "A second call is planned to finalize details."
-        )
+        return f"{name} requested detailed pricing and scheduled a follow-up. Next steps are set."
     elif total >= 35 and rapport_pts >= 10 and pain_pts >= 5:
-        return (
-            f"You followed up via email and received a brief reply. "
-            f"{name} said they’re reviewing internally and may reconnect later. "
-            "The opportunity remains open but requires persistence."
-        )
+        return f"You followed up by email; {name} is reviewing internally and may reconnect later."
     else:
-        return (
-            f"You left a voicemail and sent a follow-up email, but didn’t hear back. "
-            f"After two weeks of silence, it’s safe to assume {name} has moved on. "
-            "This opportunity is marked as lost."
-        )
+        return f"You left a voicemail and emailed, but heard nothing. After two weeks, {name} likely moved on."
 
 # ── TIMER HELPERS ─────────────────────────────────────
 def init_timer():
@@ -135,17 +116,17 @@ def show_timer(window):
     remaining = max(0, window - elapsed)
     st.sidebar.markdown("### ⏱️ Time Remaining")
     if remaining <= 1:
-        st.sidebar.warning("⚠️ Less than 1 minute remaining!")
+        st.sidebar.warning("⚠️ <1 minute left")
     elif remaining <= 3:
-        st.sidebar.info(f"⏳ {int(remaining)} minutes left")
+        st.sidebar.info(f"⏳ {int(remaining)} min left")
     else:
-        st.sidebar.write(f"{int(remaining)} minutes remaining")
+        st.sidebar.write(f"{int(remaining)} minutes left")
     return elapsed >= window
 
 # ── OPENAI CLIENT ─────────────────────────────────────
 api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
 if not api_key:
-    st.error("OPENAI_API_KEY missing")
+    st.error("Missing API key")
     st.stop()
 client = openai.OpenAI(api_key=api_key)
 
@@ -157,15 +138,16 @@ SCENARIOS = json.loads(DATA_PATH.read_text())
 st.set_page_config(page_title="ARCpoint Sales Trainer", page_icon="💬")
 st.title("💬 ARCpoint Sales Training Chatbot")
 
-# ── DOWNLOAD PLAYBOOK BUTTON ──────────────────────────
+# ── DOWNLOAD PLAYBOOK BUTTON (TEXT NOW WHITE) ────────
 pdf_path = pathlib.Path(__file__).parent / "TPA Solutions Play Book.pdf"
 if pdf_path.exists():
     b64 = base64.b64encode(pdf_path.read_bytes()).decode()
     st.sidebar.markdown(
         f'<a href="data:application/pdf;base64,{b64}" download="ARCpoint_Playbook.pdf" '
-        f'style="text-decoration:none">'
+        f'style="text-decoration:none;color:white;">'
         f'<div style="background:#d32f2f;padding:8px;border-radius:4px;'
-        f'text-align:center;color:white">Download Sales Playbook</div></a>',
+        f'text-align:center;color:white;">'
+        f'Download Sales Playbook</div></a>',
         unsafe_allow_html=True
     )
 
@@ -173,8 +155,6 @@ if pdf_path.exists():
 scenario_names = [f"{s['id']}. {s['prospect']} ({s['category']})" for s in SCENARIOS]
 choice = st.sidebar.selectbox("Choose a scenario", scenario_names)
 scenario = SCENARIOS[scenario_names.index(choice)]
-
-# reset on scenario change
 if st.session_state.get("scenario") != choice:
     st.session_state.clear()
     st.session_state.scenario = choice
@@ -192,7 +172,7 @@ persona = plist[pidx]
 # ── BUILD SYSTEM PROMPT ──────────────────────────────
 def build_prompt(scenario, persona):
     tl = {"Easy":10, "Medium":15, "Hard":20}[scenario["difficulty"]["level"]]
-    others = [p["persona_name"] for p in plist if p != persona]
+    others = [p["persona_name"] for p in plist if p!=persona]
     note = f"You know {', '.join(others)} is another stakeholder." if others else ""
     pains = ", ".join(persona["pain_points"])
     return f"""
@@ -212,10 +192,10 @@ Stay in character.
 prompt = build_prompt(scenario, persona)
 init_timer()
 if "msgs" not in st.session_state:
-    st.session_state.msgs = [{"role": "system", "content": prompt}]
+    st.session_state.msgs = [{"role":"system","content":prompt}]
 
 # ── DISPLAY INFO ─────────────────────────────────────
-tl = {"Easy":10, "Medium":15, "Hard":20}[scenario["difficulty"]["level"]]
+tl = {"Easy":10,"Medium":15,"Hard":20}[scenario["difficulty"]["level"]]
 st.markdown(f"""
 **Persona:** {persona['persona_name']} ({persona['persona_role']})  
 **Company:** {scenario['prospect']}  
@@ -225,29 +205,24 @@ st.markdown(f"""
 # ── CHAT LOOP ─────────────────────────────────────────
 user_input = st.chat_input("Your message to the prospect")
 if user_input and not st.session_state.get("closed", False):
-    st.session_state.msgs.append({"role": "user", "content": user_input})
-
-    timed_out = show_timer(tl)
-    if timed_out:
-        st.session_state.msgs.append({
-            "role": "assistant",
-            "content": f"**{persona['persona_name']}**: Sorry, I need another meeting now. Let's continue later."
+    st.session_state.msgs.append({"role":"user","content":user_input})
+    if show_timer(tl):
+        st.session_state.msgs.append({"role":"assistant","content":
+            f"**{persona['persona_name']}**: Sorry, I need another meeting now."
         })
         st.session_state.closed = True
     else:
         lower = user_input.lower()
-        # handle persona switch
         switched = False
         for idx, p in enumerate(plist):
-            if idx != pidx and p["persona_name"].lower() in lower:
+            if idx!=pidx and p["persona_name"].lower() in lower:
                 st.session_state.persona_idx = idx
                 persona = plist[idx]
-                # rebuild prompt
                 prompt = build_prompt(scenario, persona)
-                st.session_state.msgs[0] = {"role": "system", "content": prompt}
+                st.session_state.msgs[0] = {"role":"system","content":prompt}
                 st.session_state.msgs.append({
-                    "role": "assistant",
-                    "content": f"**{persona['persona_name']} ({persona['persona_role']}) has joined the meeting.**"
+                    "role":"assistant",
+                    "content":f"**{persona['persona_name']} ({persona['persona_role']}) has joined the meeting.**"
                 })
                 switched = True
                 break
@@ -255,13 +230,14 @@ if user_input and not st.session_state.get("closed", False):
             resp = client.chat.completions.create(
                 model="gpt-3.5-turbo", messages=st.session_state.msgs
             )
-            text = resp.choices[0].message.content.strip()
-            st.session_state.msgs.append({"role": "assistant", "content": text})
+            st.session_state.msgs.append({
+                "role":"assistant","content":resp.choices[0].message.content.strip()
+            })
 
 # ── RENDER CHAT ───────────────────────────────────────
 for m in st.session_state.msgs[1:]:
-    st.chat_message("user" if m["role"] == "user" else "assistant").write(m["content"])
-    if m["role"] == "assistant" and st.session_state.get("voice", False):
+    st.chat_message("user" if m["role"]=="user" else "assistant").write(m["content"])
+    if m["role"]=="assistant" and st.session_state.get("voice", False):
         gTTS(m["content"]).save("tmp.mp3")
         st.audio(open("tmp.mp3","rb").read(), format="audio/mp3")
 
@@ -276,16 +252,14 @@ if st.sidebar.button("🔚 End & Score") and not st.session_state.get("closed", 
     st.session_state.closed = True
     st.sidebar.success("Scored!")
     st.session_state.total = total
-    st.session_state.brief_fb = brief_fb
     st.session_state.sub_scores = subs
     st.session_state.detail_fb = detail_fb
 
-# After scoring, show outcome, breakdown, suggestions & leaderboard
+# After scoring: outcome, breakdown, suggestions & leaderboard
 if st.session_state.get("closed", False):
     # What Happened Next
-    narrative = generate_follow_up(st.session_state.sub_scores, scenario, persona)
     st.sidebar.markdown("### 📘 What Happened Next")
-    st.sidebar.write(narrative)
+    st.sidebar.write(generate_follow_up(st.session_state.sub_scores, scenario, persona))
 
     # Score & breakdown
     st.sidebar.markdown("### 🏆 Your Score")
@@ -307,8 +281,8 @@ if st.session_state.get("closed", False):
         )
         conn.commit()
 
-    # Top 10 leaderboard
-    st.sidebar.markdown("### 🥇 Top 10 Leaderboard")
+    # Top 10 Leaderboard
+    st.sidebar.markdown("### 🥇 Leaderboard")
     rows = cur.execute(
         "SELECT name, score FROM leaderboard ORDER BY score DESC, timestamp ASC LIMIT 10"
     ).fetchall()
